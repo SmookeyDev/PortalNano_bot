@@ -73,7 +73,7 @@ def handle(msg):
     if msg['text'] == '/help' or msg['text'] == '/help@PortalNano_bot':
         bot.sendMessage(chat_id, "📲 *Lista de Comandos*\n\n/start - Inicia o bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.\n/node - Mostra algumas estátisticas do node NanoBrasil.", parse_mode="Markdown")
     if msg['text'] == '/creditos' or msg['text'] == '/creditos@PortalNano_bot':
-        bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @xSmookeyBR\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
+        bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
 ##FUNCS
     if msg['text'] == '/registrar' or msg['text'] == '/registrar@PortalNano_bot':
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
@@ -129,7 +129,7 @@ def handle(msg):
 
             bot.sendMessage(chat_id, "📊 Estatísticas do Node *NanoBrasil*\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nano's para o nosso node:\n```{}```".format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'Markdown')
         except:
-            bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @xSmookeyBR ou @Marcosnunesmbs')
+            bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
     
     if msg['text'].split(' ')[0] == '/sugerir' or msg['text'].split(' ')[0] == '/sugerir@PortalNano_bot':
         try:
@@ -187,7 +187,7 @@ def handle(msg):
                     conn.commit()
                     bot.sendMessage(chat_id, 'Quantia enviada com sucesso para a wallet informada. Você pode checar a transação em https://nanocrawler.cc/explorer/block/{}'.format(a['envelope']['block']))
                 else:
-                    bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @xSmookeyBR ou @Marcosnunesmbs')
+                    bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
 ##SUDOS
     if msg['text'] == '/stats':
         if msg['from']['id'] in sudos:
