@@ -1,18 +1,29 @@
-import sys, time, threading, os
-from decouple import config
 import amanobot
-from amanobot.loop import MessageLoop
+import time
+import amanobot
 import sqlite3
 import new
 import feedparser
 import requests
-from datetime import datetime
+
+from os              import environ
+from decouple        import config
+from amanobot.loop   import MessageLoop
+from datetime        import datetime
+from decimal         import Decimal
+from numberFunctions import limitDecimals, convert
+
+environ["BANANO_HTTP_PROVIDER_URI"] = "https://api.nanex.cc"
+
+import bananopy.banano as nano
 
 ##SQLITE
 
 
 ##TOKEN
 TOKEN = config('TOKEN') #Token do Portal
+
+REPRESENTATIVE = "nano_1j78msn5omp8jrjge8txwxm4x3smusa1cojg7nuk8fdzoux41fqeeogg5aa1" # endereço do node representativo da Nano Brasil
 
 sudos = [392285660, 884455410, 103893853]
 
@@ -61,7 +72,7 @@ def handle(msg):
     if msg['text'] == '/donate' or msg['text'] == '/donate@PortalNano_bot':
         bot.sendPhoto(chat_id, "https://portalnano.com.br/wp-content/uploads/2020/06/nano-addres-420x420.png", caption=f"Faça-nos uma doação: <code>nano_37d1td77mifoowrziawdtas9ggenhjqhf745oinf8f1g949jygcw9hzhtdrt</code>", parse_mode="html")
     if msg['text'] == '/help' or msg['text'] == '/help@PortalNano_bot':
-        bot.sendMessage(chat_id, "📲 *Lista de Comandos*\n\n/start - Inicia do Bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.", parse_mode="Markdown")
+        bot.sendMessage(chat_id, "📲 *Lista de Comandos*\n\n/start - Inicia do Bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.\n/node - Mostra algumas estátisticas do node NanoBrasil.", parse_mode="Markdown")
     if msg['text'] == '/creditos' or msg['text'] == '/creditos@PortalNano_bot':
         bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @xSmookeyBR\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
 ##FUNCS
@@ -108,7 +119,19 @@ def handle(msg):
             bot.sendMessage(chat_id, "📊 Cotação Nano\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(a['rank'] ,"%.2f" % a['quotes']['BRL']['price'], a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  a['quotes']['USD']['price'], a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" % a['quotes']['BTC']['price'], a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
         else:
             bot.sendMessage(chat_id, "📊 Cotação {} Nano's\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(inputx ,a['rank'] ,"%.2f" % (a['quotes']['BRL']['price'] * inputx), a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  (a['quotes']['USD']['price'] * inputx), a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" %  (a['quotes']['BTC']['price'] * inputx), a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
+    
+    if msg['text'] == '/node' or msg['text'] == '/node@PortalNano_bot':
+        try:
+            delegators_count = nano.delegators_count(REPRESENTATIVE)['count']
+            representatives_online = nano.representatives_online(weight = True)['representatives']
+            representative_weight = Decimal(representatives_online[REPRESENTATIVE]['weight'])
+            online_weight = Decimal(sum([representatives_online[representative]['weight'] for representative in representatives_online]))
+            percentage_delegated = (representative_weight * 100) / online_weight
 
+            bot.sendMessage(chat_id, 'Estatísticas do node NanoBrasil:\n\nPeso de voto: {} nanos\n% do peso de voto online: {}%\nQuantidade de delegadores: {}\n\nAjude a descentralizar a nano! Delegue suas nanos para o nosso node:\n<code>{}</code>'.format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'HTML')
+        except:
+            bot.sendMessage(chat_id, 'Algo deu errado ao pegar as estatisticas do node.')
+    
     if msg['text'].split(' ')[0] == '/sugerir' or msg['text'].split(' ')[0] == '/sugerir@PortalNano_bot':
         try:
             input = msg[u'text'].split(' ', 1)[1]
