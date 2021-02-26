@@ -1,7 +1,17 @@
 import feedparser
 import sqlite3
 
+def cotsignal(argument):
+    if str(argument)[:1] == "-":
+        return "🔻"
+    else:
+        return "🔺"
 
+def limitDecimals(number, decimals):
+    return int(number * 10 ** decimals) / 10 ** decimals
+
+def convert(raw):
+    return raw / 10 ** 30
 
 def first_new():
     a = feedparser.parse("https://portalnano.com.br/blog/feed")

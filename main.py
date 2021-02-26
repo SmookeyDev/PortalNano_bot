@@ -2,7 +2,6 @@ import amanobot
 import time
 import amanobot
 import sqlite3
-import new
 import feedparser
 import requests
 
@@ -11,7 +10,7 @@ from decouple        import config
 from amanobot.loop   import MessageLoop
 from datetime        import datetime
 from decimal         import Decimal
-from numberFunctions import limitDecimals, convert
+from handles import *
 
 environ["BANANO_HTTP_PROVIDER_URI"] = "https://api.nanex.cc"
 
@@ -72,9 +71,9 @@ def handle(msg):
     if msg['text'] == '/donate' or msg['text'] == '/donate@PortalNano_bot':
         bot.sendPhoto(chat_id, "https://portalnano.com.br/wp-content/uploads/2020/06/nano-addres-420x420.png", caption=f"Faça-nos uma doação: <code>nano_37d1td77mifoowrziawdtas9ggenhjqhf745oinf8f1g949jygcw9hzhtdrt</code>", parse_mode="html")
     if msg['text'] == '/help' or msg['text'] == '/help@PortalNano_bot':
-        bot.sendMessage(chat_id, "📲 *Lista de Comandos*\n\n/start - Inicia do Bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.\n/node - Mostra algumas estátisticas do node NanoBrasil.", parse_mode="Markdown")
+        bot.sendMessage(chat_id, "📲 *Lista de Comandos*\n\n/start - Inicia o bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.\n/node - Mostra algumas estátisticas do node NanoBrasil.", parse_mode="Markdown")
     if msg['text'] == '/creditos' or msg['text'] == '/creditos@PortalNano_bot':
-        bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @xSmookeyBR\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
+        bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
 ##FUNCS
     if msg['text'] == '/registrar' or msg['text'] == '/registrar@PortalNano_bot':
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
@@ -128,9 +127,9 @@ def handle(msg):
             online_weight = Decimal(sum([representatives_online[representative]['weight'] for representative in representatives_online]))
             percentage_delegated = (representative_weight * 100) / online_weight
 
-            bot.sendMessage(chat_id, 'Estatísticas do node NanoBrasil:\n\nPeso de voto: {} nanos\n% do peso de voto online: {}%\nQuantidade de delegadores: {}\n\nAjude a descentralizar a nano! Delegue suas nanos para o nosso node:\n<code>{}</code>'.format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'HTML')
+            bot.sendMessage(chat_id, "📊 Estatísticas do Node *NanoBrasil*\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nano's para o nosso node:\n```{}```".format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'Markdown')
         except:
-            bot.sendMessage(chat_id, 'Algo deu errado ao pegar as estatisticas do node.')
+            bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
     
     if msg['text'].split(' ')[0] == '/sugerir' or msg['text'].split(' ')[0] == '/sugerir@PortalNano_bot':
         try:
@@ -188,7 +187,7 @@ def handle(msg):
                     conn.commit()
                     bot.sendMessage(chat_id, 'Quantia enviada com sucesso para a wallet informada. Você pode checar a transação em https://nanocrawler.cc/explorer/block/{}'.format(a['envelope']['block']))
                 else:
-                    bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @xSmookeyBR ou @Marcosnunesmbs')
+                    bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
 ##SUDOS
     if msg['text'] == '/stats':
         if msg['from']['id'] in sudos:
@@ -336,28 +335,22 @@ def checkblock(userid):
     else:
         return 'unblock'
 
-def cotsignal(argument):
-    if str(argument)[:1] == "-":
-        return "🔻"
-    else:
-        return "🔺"
-
 ##CHECK NEWS    
 def exlast():
     conn = sqlite3.connect('portalnano.db')
     conne = conn.cursor()
-    if new.first_new() != new.db_new():
+    if first_new() != db_new():
         conne.execute("SELECT * FROM REGISTERED")
         for i in conne.fetchall():
             try:
-                bot.sendMessage(i[1], new.first_new())
+                bot.sendMessage(i[1], first_new())
             except:
                 conne.execute("DELETE FROM REGISTERED WHERE USERID = {}".format(i[1]))
                 conn.commit()
 
-        try:conne.execute("UPDATE LASTNEW SET LINK = ? WHERE ID = 1", [new.first_new()])
+        try:conne.execute("UPDATE LASTNEW SET LINK = ? WHERE ID = 1", [first_new()])
         except:conne.execute("INSERT INTO LASTNEW (ID, LINK) \
-                        VALUES (1, {})".format(new.first_new()))
+                        VALUES (1, {})".format(first_new()))
         conn.commit()
 
 
