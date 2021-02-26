@@ -10,7 +10,7 @@ from decouple        import config
 from amanobot.loop   import MessageLoop
 from datetime        import datetime
 from decimal         import Decimal
-from handles import *
+from handles         import *
 
 environ["BANANO_HTTP_PROVIDER_URI"] = "https://api.nanex.cc"
 
@@ -127,7 +127,7 @@ def handle(msg):
             online_weight = Decimal(sum([representatives_online[representative]['weight'] for representative in representatives_online]))
             percentage_delegated = (representative_weight * 100) / online_weight
 
-            bot.sendMessage(chat_id, "📊 Estatísticas do Node *NanoBrasil*\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nano's para o nosso node:\n```{}```".format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'Markdown')
+            bot.sendMessage(chat_id, "📊 Estatísticas do Node *NanoBrasil*🇧🇷\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{}```".format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'Markdown')
         except:
             bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
     
