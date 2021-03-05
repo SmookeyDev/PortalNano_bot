@@ -1,16 +1,16 @@
-import amanobot
 import time
-import amanobot
 import sqlite3
-import feedparser
+import amanobot
+import amanobot
 import requests
+import feedparser
 
 from os              import environ
-from decouple        import config
-from amanobot.loop   import MessageLoop
-from datetime        import datetime
 from decimal         import Decimal
 from handles         import *
+from decouple        import config
+from datetime        import datetime
+from amanobot.loop   import MessageLoop
 
 environ["BANANO_HTTP_PROVIDER_URI"] = "https://api.nanex.cc"
 
@@ -77,26 +77,33 @@ def handle(msg):
 ##FUNCS
     if msg['text'] == '/registrar' or msg['text'] == '/registrar@PortalNano_bot':
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
-        if conne.fetchone() is not None:
-            if msg['chat']['type'] == 'group' or msg['chat']['type'] == 'supergroup':
-                bot.sendMessage(chat_id, "Ops, este grupo já está registrado. Para receber as noticias em particular, vá ao privado do bot e digite /registrar.")
-            elif msg['chat']['type'] == 'channel':
-                bot.sendMessage(chat_id, "Ops, este canal já está registrado.")
+        member_status = bot.getChatMember(chat_id, msg['from']['id'])['status']
+        if member_status == "administrator" or member_status == "creator":
+            if conne.fetchone() is not None:
+                if msg['chat']['type'] == 'group' or msg['chat']['type'] == 'supergroup':
+                    bot.sendMessage(chat_id, "Ops, este grupo já está registrado. Para receber as noticias em particular, vá ao privado do bot e digite /registrar.")
+                elif msg['chat']['type'] == 'channel':
+                    bot.sendMessage(chat_id, "Ops, este canal já está registrado.")
+                else:
+                    bot.sendMessage(chat_id, "Ops {}, você já está registrado. Para cancelar o recebimento das noticias digite /cancelar.".format(msg['from']['first_name']))
             else:
-                bot.sendMessage(chat_id, "Ops {}, você já está registrado. Para cancelar o recebimento das noticias digite /cancelar.".format(msg['from']['first_name']))
+                conne.execute("INSERT INTO REGISTERED (ID, USERID) \
+                    VALUES (NULL, {})".format(msg['chat']['id']))
+                conn.commit()
+                bot.sendMessage(chat_id, "Inscrição efetuada com sucesso, agora você irá receber noticias do portal. Use /ganhar seguido do endereço da sua carteira nano para ganhar uma pequena quantia.")
         else:
-            conne.execute("INSERT INTO REGISTERED (ID, USERID) \
-                VALUES (NULL, {})".format(msg['chat']['id']))
-            conn.commit()
-            bot.sendMessage(chat_id, "Inscrição efetuada com sucesso, agora você irá receber noticias do portal. Use /ganhar seguido do endereço da sua carteira nano para ganhar uma pequena quantia.")
+            bot.sendMessage(chat_id, "Apenas admins podem registrar a inscrição do grupo.")
     if msg['text'] == '/cancelar' or msg['text'] == '/cancelar@PortalNano_bot':
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
-        if conne.fetchone() is not None:
-            conne.execute("DELETE FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
-            conn.commit()
-            bot.sendMessage(chat_id, "Inscrição cancelada com sucesso, agora você não irá mais receber noticias do portal.")
+        if member_status == "administrator" or member_status == "creator":
+            if conne.fetchone() is not None:
+                conne.execute("DELETE FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
+                conn.commit()
+                bot.sendMessage(chat_id, "Inscrição cancelada com sucesso, agora você não irá mais receber noticias do portal.")
+            else:
+                bot.sendMessage(chat_id, "Ops, você ainda não está registrado.")
         else:
-            bot.sendMessage(chat_id, "Ops, você ainda não está registrado.")
+            bot.sendMessage(chat_id, "Apenas admins podem cancelar a inscrição do grupo.")
     if msg['text'] == '/ultimas' or msg['text'] == '/ultimas@PortalNano_bot':
         a = feedparser.parse("https://portalnano.com.br/blog/feed")
         cont = 4
