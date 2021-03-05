@@ -95,6 +95,7 @@ def handle(msg):
             bot.sendMessage(chat_id, "Apenas admins podem registrar a inscrição do grupo.")
     if msg['text'] == '/cancelar' or msg['text'] == '/cancelar@PortalNano_bot':
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
+        member_status = bot.getChatMember(chat_id, msg['from']['id'])['status']
         if member_status == "administrator" or member_status == "creator":
             if conne.fetchone() is not None:
                 conne.execute("DELETE FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
