@@ -12,12 +12,7 @@ from datetime        import datetime
 from decimal         import Decimal
 from handles         import *
 
-environ["BANANO_HTTP_PROVIDER_URI"] = "https://vault.nanocrawler.cc/api/node-api"
-
-import bananopy.banano as nano
-
-##SQLITE
-
+API = "https://vault.nanocrawler.cc/api/node-api"
 
 ##TOKEN
 TOKEN = config('TOKEN') #Token do Portal
@@ -118,11 +113,11 @@ def handle(msg):
             bot.sendMessage(chat_id, "📊 Cotação Nano\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(a['rank'] ,"%.2f" % a['quotes']['BRL']['price'], a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  a['quotes']['USD']['price'], a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" % a['quotes']['BTC']['price'], a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
         else:
             bot.sendMessage(chat_id, "📊 Cotação {} Nano's\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(inputx ,a['rank'] ,"%.2f" % (a['quotes']['BRL']['price'] * inputx), a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  (a['quotes']['USD']['price'] * inputx), a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" %  (a['quotes']['BTC']['price'] * inputx), a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
-    
+
     if msg['text'] == '/node' or msg['text'] == '/node@PortalNano_bot':
         try:
-            delegators_count = nano.delegators_count(REPRESENTATIVE)['count']
-            representatives_online = nano.representatives_online(weight = True)['representatives']
+            delegators_count = delegator_count(account = REPRESENTATIVE, url=API)
+            representatives_online = reps_online(url=API)['representatives']
             representative_weight = Decimal(representatives_online[REPRESENTATIVE]['weight'])
             online_weight = Decimal(sum([representatives_online[representative]['weight'] for representative in representatives_online]))
             percentage_delegated = (representative_weight * 100) / online_weight
