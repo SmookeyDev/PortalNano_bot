@@ -1,5 +1,6 @@
 import feedparser
 import sqlite3
+import requests
 
 def cotsignal(argument):
     if str(argument)[:1] == "-":
@@ -33,3 +34,13 @@ def last_new():
     while cont < 5:
         b = a.entries[cont]
         listx.append(b.link)
+
+def reps_online(url):
+    r = requests.post(json={"action": "representatives_online", "weight": True}, url=url).json()
+    for address in r["representatives"]:
+        r["representatives"][address]["weight"] = int(r["representatives"][address]["weight"])
+    return r
+
+def delegator_count(account, url):
+    r = requests.post(json={"action": "delegators_count", "account": account}, url=url).json()
+    return r["count"]
