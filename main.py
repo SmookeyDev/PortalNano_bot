@@ -12,7 +12,7 @@ from datetime        import datetime
 from decimal         import Decimal
 from handles         import *
 
-environ["BANANO_HTTP_PROVIDER_URI"] = "https://api.nanex.cc"
+environ["BANANO_HTTP_PROVIDER_URI"] = "https://vault.nanocrawler.cc/api/node-api"
 
 import bananopy.banano as nano
 
@@ -129,7 +129,7 @@ def handle(msg):
 
             bot.sendMessage(chat_id, "📊 Estatísticas do Node *NanoBrasil*🇧🇷\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{}```".format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'Markdown')
         except:
-            bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
+            bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @SACNanoPay')
     
     if msg['text'].split(' ')[0] == '/sugerir' or msg['text'].split(' ')[0] == '/sugerir@PortalNano_bot':
         try:
