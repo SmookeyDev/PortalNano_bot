@@ -59,18 +59,18 @@ def handle(msg):
     except:pass
 ##COMMANDS
 ##INFOS
-    if msg['text'] == '/start' or msg['text'] == '/start@PortalNano_bot':
+    if msgtext == '/start' or msgtext == '/start@PortalNano_bot':
         bot.sendMessage(chat_id, "Olá {}. Ao usar /registrar, você receberá atualizações do nosso portal.".format(msg['from']['first_name']))
-    if msg['text'] == '/info' or msg['text'] == '/info@PortalNano_bot':
+    if msgtext == '/info' or msgtext == '/info@PortalNano_bot':
         bot.sendMessage(chat_id, "O Portal Nano tem como missão informar, instruir e apresentar a Nano para todos. Trazer o melhor conteúdo sobre essa tecnologia e demais novidades sobre o mundo das criptomoedas. Nano é a Luz!\n\nhttp://portalnano.com.br")
-    if msg['text'] == '/donate' or msg['text'] == '/donate@PortalNano_bot':
+    if msgtext == '/donate' or msgtext == '/donate@PortalNano_bot':
         bot.sendPhoto(chat_id, "https://portalnano.com.br/wp-content/uploads/2020/06/nano-addres-420x420.png", caption=f"Faça-nos uma doação: <code>nano_37d1td77mifoowrziawdtas9ggenhjqhf745oinf8f1g949jygcw9hzhtdrt</code>", parse_mode="html")
-    if msg['text'] == '/help' or msg['text'] == '/help@PortalNano_bot':
+    if msgtext == '/help' or msgtext == '/help@PortalNano_bot':
         bot.sendMessage(chat_id, "📲 *Lista de Comandos*\n\n/start - Inicia o bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.\n/node - Mostra algumas estátisticas do node NanoBrasil.", parse_mode="Markdown")
-    if msg['text'] == '/creditos' or msg['text'] == '/creditos@PortalNano_bot':
+    if msgtext == '/creditos' or msgtext == '/creditos@PortalNano_bot':
         bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
 ##FUNCS
-    if msg['text'] == '/registrar' or msg['text'] == '/registrar@PortalNano_bot':
+    if msgtext == '/registrar' or msgtext == '/registrar@PortalNano_bot':
         member_status = bot.getChatMember(chat_id, msg['from']['id'])["status"]
         if (chat_type == "group" or chat_type == "supergroup") and (member_status != "administrator" and member_status != "creator"):
             bot.sendMessage(chat_id, "Ops, você não é administrador do grupo!")
@@ -88,7 +88,7 @@ def handle(msg):
                 VALUES (NULL, {})".format(msg['chat']['id']))
             conn.commit()
             bot.sendMessage(chat_id, "Inscrição efetuada com sucesso, agora você irá receber noticias do portal. Use /ganhar seguido do endereço da sua carteira nano para ganhar uma pequena quantia.")
-    if msg['text'] == '/cancelar' or msg['text'] == '/cancelar@PortalNano_bot':
+    if msgtext == '/cancelar' or msgtext == '/cancelar@PortalNano_bot':
         member_status = bot.getChatMember(chat_id, msg['from']['id'])["status"]
         if (chat_type == "group" or chat_type == "supergroup") and (member_status != "administrator" and member_status != "creator"):
             bot.sendMessage(chat_id, "Ops, você não é administrador do grupo!")
@@ -100,7 +100,7 @@ def handle(msg):
             bot.sendMessage(chat_id, "Inscrição cancelada com sucesso, agora você não irá mais receber noticias do portal.")
         else:
             bot.sendMessage(chat_id, "Ops, você ainda não está registrado.")
-    if msg['text'] == '/ultimas' or msg['text'] == '/ultimas@PortalNano_bot':
+    if msgtext == '/ultimas' or msgtext == '/ultimas@PortalNano_bot':
         a = feedparser.parse("https://portalnano.com.br/blog/feed")
         cont = 4
         while cont > -1:
@@ -109,7 +109,7 @@ def handle(msg):
             time.sleep(2)
             bot.sendMessage(chat_id, b.link)
         bot.sendMessage(chat_id, "Estas foram as últimas notícias.")
-    if msg['text'].split(' ')[0] == '/cot' or msg['text'].split(' ')[0] == '/cot@PortalNano_bot':
+    if msgtext.split(' ')[0] == '/cot' or msgtext.split(' ')[0] == '/cot@PortalNano_bot':
         a = requests.get('https://api.coinpaprika.com/v1/tickers/nano-nano?quotes=BRL,USD,BTC').json()
         try:
             inputx = float(msg[u'text'].split(' ', 1)[1])
@@ -122,7 +122,7 @@ def handle(msg):
         else:
             bot.sendMessage(chat_id, "📊 Cotação {} Nano's\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(inputx ,a['rank'] ,"%.2f" % (a['quotes']['BRL']['price'] * inputx), a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  (a['quotes']['USD']['price'] * inputx), a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" %  (a['quotes']['BTC']['price'] * inputx), a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
 
-    if msg['text'] == '/node' or msg['text'] == '/node@PortalNano_bot':
+    if msgtext == '/node' or msgtext == '/node@PortalNano_bot':
         try:
             delegators_count = delegator_count(account = REPRESENTATIVE, url=API)
             representatives_online = reps_online(url=API)['representatives']
@@ -134,7 +134,7 @@ def handle(msg):
         except:
             bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @SACNanoPay')
     
-    if msg['text'].split(' ')[0] == '/sugerir' or msg['text'].split(' ')[0] == '/sugerir@PortalNano_bot':
+    if msgtext.split(' ')[0] == '/sugerir' or msgtext.split(' ')[0] == '/sugerir@PortalNano_bot':
         try:
             input = msg[u'text'].split(' ', 1)[1]
         except:
@@ -145,7 +145,7 @@ def handle(msg):
             bot.sendMessage(chat_id, '💭 Sugestão enviada com sucesso, agradecemos a sua contribuição.')
             bot.sendMessage(-1001450559410, '💭 <b>Nova sugestão.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}'.format(username, msg['from']['id'], input), parse_mode='HTML')
 
-    if msg['text'].split(' ')[0] == '/elogiar' or msg['text'].split(' ')[0] == '/elogiar@PortalNano_bot':
+    if msgtext.split(' ')[0] == '/elogiar' or msgtext.split(' ')[0] == '/elogiar@PortalNano_bot':
         try:
             input = msg[u'text'].split(' ', 1)[1]
         except:
@@ -156,7 +156,7 @@ def handle(msg):
             bot.sendMessage(chat_id, '💭 Elogio enviado com sucesso, agradecemos a sua contribuição.')
             bot.sendMessage(-1001450559410, '💭 <b>Novo elogio.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}'.format(username, msg['from']['id'], input), parse_mode='HTML')
 
-    if msg['text'].split(' ')[0] == '/ganhar' or msg['text'].split(' ')[0] == '/ganhar@PortalNano_bot':
+    if msgtext.split(' ')[0] == '/ganhar' or msgtext.split(' ')[0] == '/ganhar@PortalNano_bot':
         conne.execute("SELECT * FROM SETTINGS")
         fset = None
         fprice = None
@@ -192,7 +192,7 @@ def handle(msg):
                 else:
                     bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
 ##SUDOS
-    if msg['text'] == '/stats':
+    if msgtext == '/stats':
         if msg['from']['id'] in sudos:
             conne.execute("SELECT * FROM REGISTERED")
             group = 0
@@ -213,7 +213,7 @@ def handle(msg):
                 fprice = i[1]
                 fset = i[2]
             bot.sendMessage(chat_id, "👨‍👨‍👦*Registrados*\n\nGrupos: {}\nUsuários: {}\n\n💦*Faucet*\n\nTipados: {}\nValor: {}\nEstado: {}".format(group, user, tip, fprice, fset),parse_mode= 'Markdown')
-    if msg['text'].split(' ')[0] == '/promover':
+    if msgtext.split(' ')[0] == '/promover':
         if msg['from']['id'] in sudos:
             conne.execute("SELECT * FROM REGISTERED")
             group = 0
@@ -252,11 +252,11 @@ def handle(msg):
                     conn.commit()
 
             bot.sendMessage(chat_id, "📢Promoção Completa\n\n*Grupos:* {}\n*Usuários:* {}".format(group-groupx, user-userx), parse_mode= 'Markdown')
-    if msg['text'].split(' ')[0] == '/json':
+    if msgtext.split(' ')[0] == '/json':
         if msg['from']['id'] in sudos:
             bot.sendMessage(chat_id, msg)
 
-    if msg['text'].split(' ')[0] == '/block':
+    if msgtext.split(' ')[0] == '/block':
         if msg['from']['id'] in sudos:
             try:
                 input = msg[u'text'].split(' ', 1)[1]
@@ -275,7 +275,7 @@ def handle(msg):
                     bot.sendMessage(chat_id, 'Bloqueio efetuado com sucesso, agora esse usuário não pode mais usar nenhum comando.')
 
 
-    if msg['text'].split(' ')[0] == '/unblock':
+    if msgtext.split(' ')[0] == '/unblock':
         if msg['from']['id'] in sudos:
             try:
                 input = msg[u'text'].split(' ', 1)[1]
@@ -292,12 +292,12 @@ def handle(msg):
                     conn.commit()
                     bot.sendMessage(chat_id, 'Desbloqueado com sucesso, agora esse usuário pode usar o bot novamente.')
 
-    if msg['text'] == '/blocklist':
+    if msgtext == '/blocklist':
         if msg['from']['id'] in sudos:
             conne.execute('SELECT USERID FROM BLOCKS')
             bot.sendMessage(chat_id, conne.fetchall())
 
-    if msg['text'] == '/freset':
+    if msgtext == '/freset':
         if msg['from']['id'] in sudos:
             conne.execute("SELECT * FROM FAUCET")
             count = 0
@@ -308,7 +308,7 @@ def handle(msg):
             if count == 0: return bot.sendMessage(chat_id, '❌ *A tabela já esta vazia.*', parse_mode='markdown')
             bot.sendMessage(chat_id, '🔥 *Tabela resetada.*\n\n*Pessoas:* {}'.format(count), parse_mode='markdown')
 
-    if msg['text'].split(' ')[0] == '/fset':
+    if msgtext.split(' ')[0] == '/fset':
         if msg['from']['id'] in sudos:
             input = msg[u'text'].split(' ', 1)[1]
             if input == 'on' or input == 'off':
@@ -318,7 +318,7 @@ def handle(msg):
             else:
                 bot.sendMessage(chat_id, '❌ Opção invalida.')
     
-    if msg['text'].split(' ')[0] == '/fprice':
+    if msgtext.split(' ')[0] == '/fprice':
         if msg['from']['id'] in sudos:
             try:input = float(msg[u'text'].split(' ', 1)[1])
             except ValueError: input = 0
