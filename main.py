@@ -71,6 +71,10 @@ def handle(msg):
         bot.sendMessage(chat_id, "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", parse_mode="markdown")
 ##FUNCS
     if msg['text'] == '/registrar' or msg['text'] == '/registrar@PortalNano_bot':
+        member_status = bot.getChatMember(chat_id, msg['from']['id'])["status"]
+        if (chat_type == "group" or chat_type == "supergroup") and (member_status != "administrator" and member_status != "creator"):
+            bot.sendMessage(chat_id, "Ops, você não é administrador do grupo!")
+            return
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
         if conne.fetchone() is not None:
             if msg['chat']['type'] == 'group' or msg['chat']['type'] == 'supergroup':
@@ -85,6 +89,10 @@ def handle(msg):
             conn.commit()
             bot.sendMessage(chat_id, "Inscrição efetuada com sucesso, agora você irá receber noticias do portal. Use /ganhar seguido do endereço da sua carteira nano para ganhar uma pequena quantia.")
     if msg['text'] == '/cancelar' or msg['text'] == '/cancelar@PortalNano_bot':
+        member_status = bot.getChatMember(chat_id, msg['from']['id'])["status"]
+        if (chat_type == "group" or chat_type == "supergroup") and (member_status != "administrator" and member_status != "creator"):
+            bot.sendMessage(chat_id, "Ops, você não é administrador do grupo!")
+            return
         conne.execute("SELECT * FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
         if conne.fetchone() is not None:
             conne.execute("DELETE FROM REGISTERED WHERE USERID = {}".format(msg['chat']['id']))
