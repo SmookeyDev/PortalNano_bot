@@ -1,6 +1,6 @@
 import feedparser
 import sqlite3
-import requests
+import aiohttp
 
 def cotsignal(argument):
     if str(argument)[:1] == "-":
@@ -13,6 +13,10 @@ def limitDecimals(number, decimals):
 
 def convert(raw):
     return raw / 10 ** 30
+
+async def parse():
+    p = feedparser.parse("https://portalnano.com.br/blog/feed")
+    return p
 
 def first_new():
     a = feedparser.parse("https://portalnano.com.br/blog/feed")
@@ -35,12 +39,22 @@ def last_new():
         b = a.entries[cont]
         listx.append(b.link)
 
-def reps_online(url):
-    r = requests.post(json={"action": "representatives_online", "weight": True}, url=url).json()
+async def reps_online(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(json={"action": "representatives_online", "weight": True}, url=url) as response:
+            r = await response.json()
     for address in r["representatives"]:
         r["representatives"][address]["weight"] = int(r["representatives"][address]["weight"])
     return r
 
-def delegator_count(account, url):
-    r = requests.post(json={"action": "delegators_count", "account": account}, url=url).json()
+async def delegator_count(account, url):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(json={"action": "delegators_count", "account": account}, url=url) as response:
+            r = await response.json()
     return r["count"]
+
+async def nano_cot():
+    async with aiohttp.ClientSession() as session:
+        async with session.get('https://api.coinpaprika.com/v1/tickers/nano-nano?quotes=BRL,USD,BTC') as response:
+            r = await response.json()
+    return r
