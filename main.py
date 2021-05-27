@@ -21,10 +21,11 @@ TOKEN = config('TOKEN') #Token do Portal
 
 REPRESENTATIVE = "nano_1j78msn5omp8jrjge8txwxm4x3smusa1cojg7nuk8fdzoux41fqeeogg5aa1" # endereço do node representativo da Nano Brasil
 
-sudos = [392285660, 884455410, 103893853]
+SUDOS = [ int(id) for id in config('SUDOS').split() ]
+MAINTAINERS = [ int(id) for id in config('MAINTAINERS').split() ]
 
 ##DEFS
-
+  
 async def handle(msg):
     conn = sqlite3.connect('portalnano.db')
     conne = conn.cursor()
@@ -147,8 +148,9 @@ async def handle(msg):
         if input == None:
             await bot.sendMessage(chat_id, 'Erro: você não informou nenhum conteúdo.')
         else:
-            await bot.sendMessage(chat_id, '💭 Sugestão enviada com sucesso, agradecemos a sua contribuição.')
-            await bot.sendMessage(-1001450559410, '💭 <b>Nova sugestão.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}'.format(username, msg['from']['id'], input), parse_mode='HTML')
+          for m in MAINTAINERS:
+            await bot.sendMessage(m, '💭 <b>Nova sugestão.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}'.format(username, msg['from']['id'], input), parse_mode='HTML')
+          await bot.sendMessage(chat_id, '💭 Sugestão enviada com sucesso, agradecemos a sua contribuição.')
 
     if msgtext.split(' ')[0] == '/elogiar' or msgtext.split(' ')[0] == '/elogiar@PortalNano_bot':
         try:
@@ -158,8 +160,9 @@ async def handle(msg):
         if input == None:
             await bot.sendMessage(chat_id, 'Erro: você não informou nenhum conteúdo.')
         else:
+            for m in MAINTAINERS:
+              await bot.sendMessage(m, '💭 <b>Novo elogio.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}'.format(username, msg['from']['id'], input), parse_mode='HTML')
             await bot.sendMessage(chat_id, '💭 Elogio enviado com sucesso, agradecemos a sua contribuição.')
-            await bot.sendMessage(-1001450559410, '💭 <b>Novo elogio.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}'.format(username, msg['from']['id'], input), parse_mode='HTML')
 
     if msgtext.split(' ')[0] == '/ganhar' or msgtext.split(' ')[0] == '/ganhar@PortalNano_bot':
         conne.execute("SELECT * FROM SETTINGS")
@@ -204,7 +207,7 @@ async def handle(msg):
                     await bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs')
 ##SUDOS
     if msgtext == '/stats':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             conne.execute("SELECT * FROM REGISTERED")
             group = 0
             user = 0
@@ -225,7 +228,7 @@ async def handle(msg):
                 fset = i[2]
             await bot.sendMessage(chat_id, "👨‍👨‍👦*Registrados*\n\nGrupos: {}\nUsuários: {}\n\n💦*Faucet*\n\nTipados: {}\nValor: {}\nEstado: {}".format(group, user, tip, fprice, fset),parse_mode= 'Markdown')
     if msgtext.split(' ')[0] == '/promover':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             conne.execute("SELECT * FROM REGISTERED")
             group = 0
             user = 0
@@ -264,11 +267,11 @@ async def handle(msg):
 
             await bot.sendMessage(chat_id, "📢Promoção Completa\n\n*Grupos:* {}\n*Usuários:* {}".format(group-groupx, user-userx), parse_mode= 'Markdown')
     if msgtext.split(' ')[0] == '/json':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             await bot.sendMessage(chat_id, msg)
 
     if msgtext.split(' ')[0] == '/block':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             try:
                 input = msg[u'text'].split(' ', 1)[1]
             except:
@@ -287,7 +290,7 @@ async def handle(msg):
 
 
     if msgtext.split(' ')[0] == '/unblock':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             try:
                 input = msg[u'text'].split(' ', 1)[1]
             except:
@@ -304,12 +307,12 @@ async def handle(msg):
                     await bot.sendMessage(chat_id, 'Desbloqueado com sucesso, agora esse usuário pode usar o bot novamente.')
 
     if msgtext == '/blocklist':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             conne.execute('SELECT USERID FROM BLOCKS')
             await bot.sendMessage(chat_id, conne.fetchall())
 
     if msgtext == '/freset':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             conne.execute("SELECT * FROM FAUCET")
             count = 0
             for i in conne.fetchall():
@@ -322,7 +325,7 @@ async def handle(msg):
             await bot.sendMessage(chat_id, '🔥 *Tabela resetada.*\n\n*Pessoas:* {}'.format(count), parse_mode='markdown')
 
     if msgtext.split(' ')[0] == '/fset':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             input = msg[u'text'].split(' ', 1)[1]
             if input == 'on' or input == 'off':
                 conne.execute("UPDATE SETTINGS SET FSET = ? WHERE ID = 1", [input])
@@ -332,7 +335,7 @@ async def handle(msg):
                 await bot.sendMessage(chat_id, '❌ Opção invalida.')
     
     if msgtext.split(' ')[0] == '/fprice':
-        if msg['from']['id'] in sudos:
+        if msg['from']['id'] in SUDOS:
             try:input = float(msg[u'text'].split(' ', 1)[1])
             except ValueError: input = 0
             if input > 0:
