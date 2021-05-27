@@ -53,6 +53,20 @@ async def delegator_count(account, url):
             r = await response.json()
     return r["count"]
 
+async def network_stats():
+    async with aiohttp.ClientSession() as session:
+        async with session.get('https://nanoticker.info/json/stats.json') as response:
+            r = await response.json()
+    j = {
+        "cps": limitDecimals(r["CPSMedian"], 2),
+        "bps": limitDecimals(r["BPSMedian"], 2),
+        "blockCount": r["blockCountMedian"],
+        "cementedCount": r["cementedMedian"],
+        "backlog": r["blockCountMedian"] - r["cementedMedian"],
+        "secondsRemaining": (r["blockCountMedian"] - r["cementedMedian"]) / (r["CPSMedian"] - r["BPSMedian"])
+    }
+    return j
+
 async def nano_cot():
     async with aiohttp.ClientSession() as session:
         async with session.get('https://api.coinpaprika.com/v1/tickers/nano-nano?quotes=BRL,USD,BTC') as response:
