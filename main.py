@@ -6,6 +6,7 @@ import sqlite3
 import feedparser
 import requests
 import asyncio
+import json
 
 from os                import environ
 from decouple          import config
@@ -123,9 +124,9 @@ async def handle(msg):
         if inputx == 'invalid' or inputx == 0:
             await bot.sendMessage(chat_id, '❌ Valor invalido.')
         elif inputx == None or inputx == 1:
-            await bot.sendMessage(chat_id, "📊 Cotação Nano\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(a['rank'] ,"%.2f" % a['quotes']['BRL']['price'], a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  a['quotes']['USD']['price'], a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" % a['quotes']['BTC']['price'], a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
+            await bot.sendMessage(chat_id, format_quote(a, 1))
         else:
-            await bot.sendMessage(chat_id, "📊 Cotação {} Nano's\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}".format(inputx ,a['rank'] ,"%.2f" % (a['quotes']['BRL']['price'] * inputx), a['quotes']['BRL']['percent_change_24h'], cotsignal(a['quotes']['BRL']['percent_change_24h']),"%.2f" %  (a['quotes']['USD']['price'] * inputx), a['quotes']['USD']['percent_change_24h'], cotsignal(a['quotes']['USD']['percent_change_24h']),"%.8f" %  (a['quotes']['BTC']['price'] * inputx), a['quotes']['BTC']['percent_change_24h'], cotsignal(a['quotes']['BTC']['percent_change_24h']),int(a['quotes']['USD']['volume_24h']), a['quotes']['USD']['volume_24h_change_24h'], cotsignal(a['quotes']['USD']['volume_24h_change_24h']), int(a['quotes']['USD']['market_cap']), a['quotes']['USD']['market_cap_change_24h'], cotsignal(a['quotes']['USD']['market_cap_change_24h']), datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
+            await bot.sendMessage(chat_id, format_quote(a, inputx))
 
     if msgtext == '/node' or msgtext == '/node@PortalNano_bot':
         try:
@@ -371,6 +372,32 @@ async def exlast():
         except:conne.execute("INSERT INTO LASTNEW (ID, LINK) \
                         VALUES (1, {})".format(first_new()))
         conn.commit()
+
+def format_quote(a, amount):
+	txt = texts["QUOTE_HEAD_ONE"][lang]
+	if amount != 1: 
+		txt = texts["QUOTE_HEAD_MULTI"][lang].format(amount)
+
+	txt += texts["QUOTE_BODY"][lang].format(
+		a['rank'],
+		"%.2f" % (a['quotes']['BRL']['price'] * amount), 
+		a['quotes']['BRL']['percent_change_24h'], 
+		cotsignal(a['quotes']['BRL']['percent_change_24h']),
+		"%.2f" %	(a['quotes']['USD']['price'] * amount), 
+		a['quotes']['USD']['percent_change_24h'], 
+		cotsignal(a['quotes']['USD']['percent_change_24h']),
+		"%.8f" %	(a['quotes']['BTC']['price'] * amount), 
+		a['quotes']['BTC']['percent_change_24h'], 
+		cotsignal(a['quotes']['BTC']['percent_change_24h']),
+		int(a['quotes']['USD']['volume_24h']), 
+		a['quotes']['USD']['volume_24h_change_24h'], 
+		cotsignal(a['quotes']['USD']['volume_24h_change_24h']), 
+		int(a['quotes']['USD']['market_cap']), 
+		a['quotes']['USD']['market_cap_change_24h'], 
+		cotsignal(a['quotes']['USD']['market_cap_change_24h']), 
+		datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+	)
+	return txt
 
 class loopy(amanobot.loop.RunForeverAsThread):
     async def run_forever(self):
