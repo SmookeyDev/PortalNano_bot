@@ -1,0 +1,131 @@
+{
+	"START": { 
+		"pt": "Olá {}. Ao usar /registrar, você receberá atualizações do nosso portal."
+	},
+	"INFO": { 
+		"pt": "O Portal Nano tem como missão informar, instruir e apresentar a Nano para todos. Trazer o melhor conteúdo sobre essa tecnologia e demais novidades sobre o mundo das criptomoedas. Nano é a Luz!\n\nhttp://portalnano.com.br"
+	},
+	"HELP": {
+		"pt": "📲 *Lista de Comandos*\n\n/start - Inicia o bot.\n/info - Mostra informações do portal.\n/donate - Mostra uma carteira NANO destinada a receber doações ao portal.\n/creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los\n/registrar - Ativa o recebimento de noticias.\n/cancelar - Cancela o recebimento de noticias.\n/ultimas - Lista as ultimas 5 noticias lançadas no portal.\n/cot - Mostra a atual cotação da NANO.\n/sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.\n/elogiar - Possibilita nos elogiar :)\n/ganhar - Recebe uma pequena quantia em nano.\n/node - Mostra algumas estátisticas do node NanoBrasil.\n/rede - Mostra algumas informações da rede da Nano."
+	},
+	"DONATE": { 
+		"pt": "Faça-nos uma doação: <code>nano_37d1td77mifoowrziawdtas9ggenhjqhf745oinf8f1g949jygcw9hzhtdrt</code>"
+	},
+	"DONATE_IMAGE_URL": { 
+		"pt": "https://portalnano.com.br/wp-content/uploads/2020/06/nano-addres-420x420.png"
+	},
+	"NOT_ADMIN": { 
+		"pt": "Ops, você não é administrador do grupo!"
+	},
+	"REGISTERED_GROUP": { 
+		"pt": "Ops, este grupo já está registrado. Para receber as noticias em particular, vá ao privado do bot e digite /registrar."
+	},
+	"REGISTERED_CHANNEL": { 
+		"pt": "Ops, este canal já está registrado."
+	},
+	"REGISTERED_USER": { 
+		"pt": "Ops {}, você já está registrado. Para cancelar o recebimento das noticias digite /cancelar."
+	},
+	"REGISTER_SUCCESS": { 
+		"pt": "Inscrição efetuada com sucesso, agora você irá receber noticias do portal. Use /ganhar seguido do endereço da sua carteira nano para ganhar uma pequena quantia."
+	},
+	"CANCEL_SUCCESS": { 
+		"pt": "Inscrição cancelada com sucesso, agora você não irá mais receber noticias do portal."
+	},
+	"NOT_REGISTERED": { 
+		"pt": "Ops, você ainda não está registrado."
+	},
+	"LAST_NEWS": { 
+		"pt": "Estas foram as últimas notícias."
+	},
+	"ERROR_MAINTENANCE": { 
+		"pt": "Opa, neste momento essa função se encontra em manutenção. Tente novamente mais tarde."
+	},
+	"EARN_REGISTER": { 
+		"pt": "Opa, pra você poder usar nosso faucet precisa estar registrado. Use /registrar no privado."
+	},
+	"EARN_NOADDRESS": { 
+		"pt": "Erro: você não informou nenhum endereço. Use: /ganhar <endereço>"
+	},
+	"EARN_ALREADY": { 
+		"pt": "Ops! você já ganhou suas nanos!"
+	},
+	"EARN_SUCCESS": { 
+		"pt": "Quantia enviada com sucesso para a wallet informada. Você pode checar a transação em https://nanocrawler.cc/explorer/block/{}"
+	},
+	"ERROR_CONTACT": { 
+		"pt": "Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @Marcosnunesmbs"
+	},
+	"WAIT": { 
+		"pt": "Aguarde..."
+	},
+	"NO_CONTENT": { 
+		"pt": "Erro: você não informou nenhum conteúdo."
+	},
+	"ERROR_BLOCK": { 
+		"pt": "Erro: esse usuário já esta bloqueado."
+	},
+	"ERROR_UNBLOCK": { 
+		"pt": "Erro: esse usuário não está bloqueado."
+	},
+	"BLOCK_SUCCESS": { 
+		"pt": "Bloqueio efetuado com sucesso, agora esse usuário não pode mais usar nenhum comando."
+	},
+	"UNBLOCK_SUCCESS": { 
+		"pt": "Desbloqueado com sucesso, agora esse usuário pode usar o bot novamente."
+	},
+	"FAUCET_EMPTY": { 
+		"pt": "❌ *A tabela já esta vazia.*"
+	},
+	"FSET_SUCCESS": { 
+		"pt": "Sucesso, o faucet foi setado como {}"
+	},
+	"FPRICE_SUCCESS": { 
+		"pt": "Sucesso, o preço foi ajustado para {}"
+	},
+	"FRESET_SUCCESS": {
+		"pt": "🔥 *Tabela resetada.*\n\n*Pessoas:* {}"
+	},
+	"INVALID_VALUE": { 
+		"pt": "❌ Valor invalido."
+	},
+	"INVALID_OPTION": { 
+		"pt": "❌ Opção invalida."
+	},
+	"COMPLIMENT_NEW": {
+		"pt": "💭 <b>Novo elogio.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}"
+	},
+	"SUGGEST_NEW": {
+		"pt": "💭 <b>Nova sugestão.</b>\n\n<b>Usuário:</b> @{}\n<b>ID do Usuário:</b> {}\n\n<b>Conteúdo:</b> {}"
+	},
+	"COMPLIMENT_SUCCESS": { 
+		"pt": "💭 Elogio enviado com sucesso, agradecemos a sua contribuição."
+	},
+	"SUGGEST_SUCCESS": { 
+		"pt": "💭 Sugestão enviada com sucesso, agradecemos a sua contribuição."
+	},
+	"QUOTE_HEAD_ONE": {
+		"pt": "📊 Cotação Nano"
+	},
+	"QUOTE_HEAD_MULTI": {
+		"pt": "📊 Cotação {} Nano's"
+	},
+	"QUOTE_BODY": {
+		"pt": "\n\nRank: {}\n\nBRL: R${} ({}%) {}\nUSD: ${} ({}%) {}\nBTC: {} ₿ ({}%) {}\n\nVol, 24h: ${:,.0f} ({}%) {}\nMarket Cap: ${:,.0f} ({}%) {}\n\n🕒 {}"
+	},
+	"NODE": {
+		"pt": "📊 Estatísticas do Node *NanoBrasil*🇧🇷\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{}```"
+	},
+	"CREDITS": {
+		"pt": "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```"
+	},
+	"DEBUG": {
+		"pt": "=======================================\nChat: {}\nNome: {}\nTipo: {}\nMensagem: {}\n=======================================\n"
+	},
+	"STATS": {
+		"pt": "👨‍👨‍👦*Registrados*\n\nGrupos: {}\nUsuários: {}\n\n💦*Faucet*\n\nTipados: {}\nValor: {}\nEstado: {}"
+	},
+	"PROMOTE": {
+		"pt": "📢Promoção Completa\n\n*Grupos:* {}\n*Usuários:* {}"
+	}
+}
