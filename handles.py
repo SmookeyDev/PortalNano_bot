@@ -63,7 +63,13 @@ async def network_stats():
         "blockCount": r["blockCountMedian"],
         "cementedCount": r["cementedMedian"],
         "backlog": r["blockCountMedian"] - r["cementedMedian"],
-        "secondsRemaining": (r["blockCountMedian"] - r["cementedMedian"]) / (r["CPSMedian"] - r["BPSMedian"])
+        "secondsRemaining": (r["blockCountMedian"] - r["cementedMedian"]) / (r["CPSMedian"] - r["BPSMedian"]),
+        "cpsMax": limitDecimals(r["CPSMax"], 2),
+        "bpsMax": limitDecimals(r["BPSMax"], 2),
+        "blockCountMax": r["blockCountMax"],
+        "cementedCountMax": r["cementedMax"],
+        "backlogMax": r["blockCountMax"] - r["cementedMax"],
+        "secondsRemainingMax": (r["blockCountMax"] - r["cementedMax"]) / (r["CPSMax"] - r["BPSMax"]),
     }
     return j
 

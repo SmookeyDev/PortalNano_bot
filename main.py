@@ -139,14 +139,20 @@ async def handle(msg):
         except:
             await bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @SACNanoPay')
     
-    if msgtext == '/rede' or msgtext == '/rede@PortalNano_bot':
+    if msgtext.split(" ")[0] == '/rede' or msgtext.split(" ")[0] == '/rede@PortalNano_bot':
 
         try:
             stats = await network_stats()
             dataAtual = datetime.now()
-            dataBacklog = dataAtual + timedelta(seconds=stats["secondsRemaining"])
-            dataText = f"{dataBacklog.day}/{dataBacklog.month}/{dataBacklog.year} às {dataBacklog.hour}:{dataBacklog.minute if dataBacklog.minute >= 10 else f'0{dataBacklog.minute}'}"
-            await bot.sendMessage(chat_id, f"📊 Estatísticas da rede\n\n*cps:* {stats['cps']}\n*bps:* {stats['bps']}\n*quantidade de blocos:* {stats['blockCount']}\n*quantidade de blocos confirmados:* {stats['cementedCount']}\n*backlog:* {stats['backlog']} blocos\n\nNo atual estado o backlog terminará na data {dataText}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{REPRESENTATIVE}```", parse_mode = 'Markdown')
+
+            if len(msgtext.split(" ")) > 1 and msgtext.split(" ")[1] == "max":
+                dataBacklog = dataAtual + timedelta(seconds=stats["secondsRemainingMax"])
+                dataText = f"{dataBacklog.day}/{dataBacklog.month}/{dataBacklog.year} às {dataBacklog.hour}:{dataBacklog.minute if dataBacklog.minute >= 10 else f'0{dataBacklog.minute}'}"
+                await bot.sendMessage(chat_id, f"📊 Estatísticas da rede\n\n*cps:* {stats['cpsMax']}\n*bps:* {stats['bpsMax']}\n*quantidade de blocos:* {stats['blockCountMax']}\n*quantidade de blocos confirmados:* {stats['cementedCountMax']}\n*backlog:* {stats['backlogMax']} blocos\n\nNo atual estado o backlog terminará na data {dataText}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{REPRESENTATIVE}```", parse_mode = 'Markdown')
+            else:
+                dataBacklog = dataAtual + timedelta(seconds=stats["secondsRemaining"])
+                dataText = f"{dataBacklog.day}/{dataBacklog.month}/{dataBacklog.year} às {dataBacklog.hour}:{dataBacklog.minute if dataBacklog.minute >= 10 else f'0{dataBacklog.minute}'}"
+                await bot.sendMessage(chat_id, f"📊 Estatísticas da rede\n\n*cps:* {stats['cps']}\n*bps:* {stats['bps']}\n*quantidade de blocos:* {stats['blockCount']}\n*quantidade de blocos confirmados:* {stats['cementedCount']}\n*backlog:* {stats['backlog']} blocos\n\nNo atual estado o backlog terminará na data {dataText}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{REPRESENTATIVE}```", parse_mode = 'Markdown')
         except:
             await bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @SACNanoPay')
 
