@@ -149,7 +149,7 @@ async def handle(msg):
             stats = await network_stats()
             dataAtual = datetime.now()
 
-            if len(msgtext.split(" ")) > 1 and msgtext.split(" ")[1] == "max":
+            if cmd['param'] and cmd['param'] == "max":
                 dataBacklog = dataAtual + timedelta(seconds=stats["secondsRemainingMax"])
                 dataText = f"{dataBacklog.day}/{dataBacklog.month}/{dataBacklog.year} às {dataBacklog.hour}:{dataBacklog.minute if dataBacklog.minute >= 10 else f'0{dataBacklog.minute}'}"
                 await bot.sendMessage(chat_id, f"📊 Estatísticas da rede\n\n*cps:* {stats['cpsMax']}\n*bps:* {stats['bpsMax']}\n*quantidade de blocos:* {stats['blockCountMax']}\n*quantidade de blocos confirmados:* {stats['cementedCountMax']}\n*backlog:* {stats['backlogMax']} blocos\n\nNo atual estado o backlog terminará na data {dataText}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{REPRESENTATIVE}```", parse_mode = 'Markdown')
