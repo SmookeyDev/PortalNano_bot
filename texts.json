@@ -117,7 +117,7 @@
 		"pt": "📊 Estatísticas do Node *NanoBrasil*🇧🇷\n\n*Peso de voto:* {} Nanos ({}%) \n*Quantidade de delegadores:* {}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{}```"
 	},
 	"CREDITS": {
-		"pt": "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidor:* @AT35000 (/node)\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```"
+		"pt": "🖥 *Creditos*\n\n*Desenvolvedor:* @SmookeyDev\n*Contribuidores:* @AT35000 e @igorcmelo.\n\n*Endereço para me apoiar:* ```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```"
 	},
 	"DEBUG": {
 		"pt": "=======================================\nChat: {}\nNome: {}\nTipo: {}\nMensagem: {}\n=======================================\n"
