@@ -56,7 +56,7 @@ async def handle(msg):
     else: msgtext = "Vazio"
     try:username = msg['from']['username']
     except:username = 'Vazio'
-    try:print("=======================================\nChat: {}\nNome: {}\nTipo: {}\nMensagem: {}\n=======================================\n".format(msg['chat']['type'], msg['from']['first_name'], content_type, msgtext))
+    try:print(texts["DEBUG"]["pt"].format(msg['chat']['type'], msg['from']['first_name'], content_type, msgtext))
     except:pass
     try:
         if checkblock(msg['from']['id']) == 'block': return None
