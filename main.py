@@ -420,9 +420,8 @@ def parse_cmd(msg):
 class loopy(amanobot.loop.RunForeverAsThread):
     async def run_forever(self):
         while( True ):
-            try: await exlast()
+            try:await exlast()
             except:pass
-            print("repetido!")
             await asyncio.sleep(10)
 
 #TURN BOT ON AND WORKING
