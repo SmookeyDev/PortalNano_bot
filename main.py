@@ -63,18 +63,21 @@ async def handle(msg):
     except:pass
 ##COMMANDS
 ##INFOS
-    if msgtext == '/start' or msgtext == '/start@PortalNano_bot':
+    cmd = parse_cmd(msgtext)
+    if not cmd: return 
+
+    if cmd['type'] == '/start':
         await bot.sendMessage(chat_id, texts["START"][lang].format(msg['from']['first_name']))
-    if msgtext == '/info' or msgtext == '/info@PortalNano_bot':
+    if cmd['type'] == '/info':
         await bot.sendMessage(chat_id, texts["INFO"][lang])
-    if msgtext == '/donate' or msgtext == '/donate@PortalNano_bot':
+    if cmd['type'] == '/donate':
         await bot.sendPhoto(chat_id, texts["DONATE_IMAGE_URL"]["pt"], caption=texts["DONATE"][lang], parse_mode="html")
-    if msgtext == '/help' or msgtext == '/help@PortalNano_bot':
+    if cmd['type'] == '/help':
         await bot.sendMessage(chat_id, texts["HELP"][lang], parse_mode="Markdown")
-    if msgtext == '/creditos' or msgtext == '/creditos@PortalNano_bot':
+    if cmd['type'] == '/creditos':
         await bot.sendMessage(chat_id, texts["CREDITS"][lang], parse_mode="markdown")
 ##FUNCS
-    if msgtext == '/registrar' or msgtext == '/registrar@PortalNano_bot':
+    if cmd['type'] == '/registrar':
         member_status = await bot.getChatMember(chat_id, msg['from']['id'])
         member_status = member_status["status"]
         if chat_type in GROUP_TYPE and member_status not in ADMIN_TYPE:
@@ -93,7 +96,7 @@ async def handle(msg):
                 VALUES (NULL, {})".format(msg['chat']['id']))
             conn.commit()
             await bot.sendMessage(chat_id, texts["REGISTER_SUCCESS"][lang])
-    if msgtext == '/cancelar' or msgtext == '/cancelar@PortalNano_bot':
+    if cmd['type'] == '/cancelar':
         member_status = await bot.getChatMember(chat_id, msg['from']['id'])
         member_status = member_status["status"]
         if chat_type in GROUP_TYPE and member_status not in ADMIN_TYPE:
@@ -106,7 +109,7 @@ async def handle(msg):
             await bot.sendMessage(chat_id, texts["CANCEL_SUCCESS"][lang])
         else:
             await bot.sendMessage(chat_id, texts["NOT_REGISTERED"][lang])
-    if msgtext == '/ultimas' or msgtext == '/ultimas@PortalNano_bot':
+    if cmd['type'] == '/ultimas':
         a = await parse()
         cont = 4
         while cont > -1:
@@ -115,10 +118,10 @@ async def handle(msg):
             await asyncio.sleep(2)
             await bot.sendMessage(chat_id, b.link)
         await bot.sendMessage(chat_id, texts["LAST_NEWS"][lang])
-    if msgtext.split(' ')[0] == '/cot' or msgtext.split(' ')[0] == '/cot@PortalNano_bot':
+    if cmd['type'] == '/cot':
         a = await nano_cot()
         try:
-            inputx = float(msg[u'text'].split(' ', 1)[1])
+            inputx = float(cmd['param'])
         except ValueError: inputx = 'invalid'
         except: inputx = None
         if inputx == 'invalid' or inputx == 0:
@@ -128,7 +131,7 @@ async def handle(msg):
         else:
             await bot.sendMessage(chat_id, format_quote(a, inputx))
 
-    if msgtext == '/node' or msgtext == '/node@PortalNano_bot':
+    if cmd['type'] == '/node':
         try:
             delegators_count = await delegator_count(account = REPRESENTATIVE, url=API)
             representatives_online = await reps_online(url=API)
@@ -141,9 +144,9 @@ async def handle(msg):
         except:
             await bot.sendMessage(chat_id, texts["ERROR_CONTACT"][lang])
     
-    if msgtext.split(' ')[0] == '/sugerir' or msgtext.split(' ')[0] == '/sugerir@PortalNano_bot':
+    if cmd['type'] == '/sugerir':
         try:
-            input = msg[u'text'].split(' ', 1)[1]
+            input = cmd['param']
         except:
             input = None
         if input == None:
@@ -153,9 +156,9 @@ async def handle(msg):
             await bot.sendMessage(m, texts["SUGGEST_NEW"][lang].format(username, msg['from']['id'], input), parse_mode='HTML')
           await bot.sendMessage(chat_id, texts["SUGGEST_SUCCESS"][lang])
 
-    if msgtext.split(' ')[0] == '/elogiar' or msgtext.split(' ')[0] == '/elogiar@PortalNano_bot':
+    if cmd['type'] == '/elogiar':
         try:
-            input = msg[u'text'].split(' ', 1)[1]
+            input = cmd['param']
         except:
             input = None
         if input == None:
@@ -165,14 +168,14 @@ async def handle(msg):
               await bot.sendMessage(m, texts["COMPLIMENT_NEW"][lang].format(username, msg['from']['id'], input), parse_mode='HTML')
             await bot.sendMessage(chat_id, texts["COMPLIMENT_SUCCESS"][lang])
 
-    if msgtext.split(' ')[0] == '/ganhar' or msgtext.split(' ')[0] == '/ganhar@PortalNano_bot':
+    if cmd['type'] == '/ganhar':
         conne.execute("SELECT * FROM SETTINGS")
         fset = None
         fprice = None
         for i in conne.fetchall():
             fprice = i[1]
             fset = i[2]
-        try:input = msg[u'text'].split(' ', 1)[1]
+        try:input = cmd['param']
         except:input = None
         if fset == 'off': 
             await bot.sendMessage(chat_id, texts["ERROR_MAINTENANCE"][lang])
@@ -207,7 +210,7 @@ async def handle(msg):
                 else:
                     await bot.sendMessage(chat_id, texts["ERROR_CONTACT"][lang])
 ##SUDOS
-    if msgtext == '/stats':
+    if cmd['type'] == '/stats':
         if msg['from']['id'] in SUDOS:
             conne.execute("SELECT * FROM REGISTERED")
             group = 0
@@ -228,7 +231,7 @@ async def handle(msg):
                 fprice = i[1]
                 fset = i[2]
             await bot.sendMessage(chat_id, texts["STATS"][lang].format(group, user, tip, fprice, fset),parse_mode= 'Markdown')
-    if msgtext.split(' ')[0] == '/promover':
+    if cmd['type'] == '/promover':
         if msg['from']['id'] in SUDOS:
             conne.execute("SELECT * FROM REGISTERED")
             group = 0
@@ -242,7 +245,7 @@ async def handle(msg):
                     user += 1
                 content = ""
                 try:
-                    msg[u'text'].split(' ', 1)[1] 
+                    cmd['param']
                     content = "text"
                 except:
                     try:
@@ -252,7 +255,7 @@ async def handle(msg):
                         await bot.sendMessage(chat_id, texts["NO_CONTENT"][lang])
                 try: 
                     if content != "photo":
-                        await bot.sendMessage(i[1], msg[u'text'].split(' ', 1)[1])
+                        await bot.sendMessage(i[1], cmd['param'])
                     else:
                         try:
                             await bot.sendPhoto(i[1], msg['reply_to_message']['photo'][1]['file_id'], msg['reply_to_message']['caption'])
@@ -267,14 +270,14 @@ async def handle(msg):
                     conn.commit()
 
             await bot.sendMessage(chat_id, texts["PROMOTE"][lang].format(group-groupx, user-userx), parse_mode= 'Markdown')
-    if msgtext.split(' ')[0] == '/json':
+    if cmd['type'] == '/json':
         if msg['from']['id'] in SUDOS:
             await bot.sendMessage(chat_id, msg)
 
-    if msgtext.split(' ')[0] == '/block':
+    if cmd['type'] == '/block':
         if msg['from']['id'] in SUDOS:
             try:
-                input = msg[u'text'].split(' ', 1)[1]
+                input = cmd['param']
             except:
                 input = None
             if input == None:
@@ -290,10 +293,10 @@ async def handle(msg):
                     await bot.sendMessage(chat_id, texts["BLOCK_SUCCESS"][lang])
 
 
-    if msgtext.split(' ')[0] == '/unblock':
+    if cmd['type'] == '/unblock':
         if msg['from']['id'] in SUDOS:
             try:
-                input = msg[u'text'].split(' ', 1)[1]
+                input = cmd['param']
             except:
                 input = None
             if input == None:
@@ -307,12 +310,12 @@ async def handle(msg):
                     conn.commit()
                     await bot.sendMessage(chat_id, texts["UNBLOCK_SUCCESS"][lang])
 
-    if msgtext == '/blocklist':
+    if cmd['type'] == '/blocklist':
         if msg['from']['id'] in SUDOS:
             conne.execute('SELECT USERID FROM BLOCKS')
             await bot.sendMessage(chat_id, conne.fetchall())
 
-    if msgtext == '/freset':
+    if cmd['type'] == '/freset':
         if msg['from']['id'] in SUDOS:
             conne.execute("SELECT * FROM FAUCET")
             count = 0
@@ -325,9 +328,9 @@ async def handle(msg):
                 return
             await bot.sendMessage(chat_id, texts["FRESET_SUCCESS"][lang].format(count), parse_mode='markdown')
 
-    if msgtext.split(' ')[0] == '/fset':
+    if cmd['type'] == '/fset':
         if msg['from']['id'] in SUDOS:
-            input = msg[u'text'].split(' ', 1)[1]
+            input = cmd['param']
             if input == 'on' or input == 'off':
                 conne.execute("UPDATE SETTINGS SET FSET = ? WHERE ID = 1", [input])
                 conn.commit()
@@ -335,9 +338,9 @@ async def handle(msg):
             else:
                 await bot.sendMessage(chat_id, texts["INVALID_OPTION"][lang])
     
-    if msgtext.split(' ')[0] == '/fprice':
+    if cmd['type'] == '/fprice':
         if msg['from']['id'] in SUDOS:
-            try:input = float(msg[u'text'].split(' ', 1)[1])
+            try:input = float(cmd['param'])
             except ValueError: input = 0
             if input > 0:
                 conne.execute("UPDATE SETTINGS SET FPRICE = ? WHERE ID = 1", [input])
@@ -398,6 +401,21 @@ def format_quote(a, amount):
 		datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 	)
 	return txt
+
+def parse_cmd(msg):
+    res = msg
+    res = res.replace(config('BOT_USERNAME'), "")
+    t = res.split(' ', 1)[0]
+    p = None
+    
+    try:
+        p = res.split(' ', 1)[1]
+    except:
+        pass
+
+    if not res[0].startswith("/"): 
+        return None
+    return { 'type': t, 'param': p }
 
 class loopy(amanobot.loop.RunForeverAsThread):
     async def run_forever(self):
