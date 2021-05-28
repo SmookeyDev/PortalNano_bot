@@ -71,7 +71,7 @@ async def handle(msg):
     if cmd['type'] == '/info':
         await bot.sendMessage(chat_id, texts["INFO"][lang])
     if cmd['type'] == '/donate':
-        await bot.sendPhoto(chat_id, texts["DONATE_IMAGE_URL"]["pt"], caption=texts["DONATE"][lang], parse_mode="html")
+        await bot.sendPhoto(chat_id, texts["DONATE_IMAGE_URL"], caption=texts["DONATE"][lang], parse_mode="html")
     if cmd['type'] == '/help':
         await bot.sendMessage(chat_id, texts["HELP"][lang], parse_mode="Markdown")
     if cmd['type'] == '/creditos':
@@ -397,7 +397,7 @@ def format_quote(a, amount):
 	if amount != 1: 
 		txt = texts["QUOTE_HEAD_MULTI"][lang].format(amount)
 
-	txt += texts["QUOTE_BODY"][lang].format(
+	txt += texts["QUOTE_BODY"].format(
 		a['rank'],
 		"%.2f" % (a['quotes']['BRL']['price'] * amount), 
 		a['quotes']['BRL']['percent_change_24h'], 
