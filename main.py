@@ -11,7 +11,7 @@ import json
 from os                import environ
 from decouple          import config
 from amanobot.aio.loop import MessageLoop
-from datetime          import datetime
+from datetime          import datetime, timedelta
 from decimal           import Decimal
 from handles           import *
 
