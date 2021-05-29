@@ -15,7 +15,6 @@ from datetime          import datetime, timedelta
 from decimal           import Decimal
 from handles           import *
 
-API = "https://vault.nanocrawler.cc/api/node-api"
 REPRESENTATIVE = "nano_1j78msn5omp8jrjge8txwxm4x3smusa1cojg7nuk8fdzoux41fqeeogg5aa1" # endereço do node representativo da Nano Brasil
 GROUP_TYPE = ["group", "supergroup"]
 ADMIN_TYPE = ["administrator", "owner", "creator"]
@@ -133,12 +132,13 @@ async def handle(msg):
 
     if cmd['type'] == '/node':
         try:
-            delegators_count = await delegator_count(account = REPRESENTATIVE, url=API)
-            representatives_online = await reps_online(url=API)
-            representatives_online = representatives_online['representatives']
-            representative_weight = Decimal(representatives_online[REPRESENTATIVE]['weight'])
-            online_weight = Decimal(sum([representatives_online[representative]['weight'] for representative in representatives_online]))
+            rep_info = await representative_info()
+            for i in range(len(rep_info)):
+                if rep_info[i]["account"] == REPRESENTATIVE: break 
+            representative_weight = Decimal(str(rep_info[i]["votingweight"]))
+            online_weight = sum([Decimal(str(representative["votingweight"])) for representative in rep_info])
             percentage_delegated = (representative_weight * 100) / online_weight
+            delegators_count = rep_info[i]["delegators"]
 
             await bot.sendMessage(chat_id, texts["NODE"][lang].format(limitDecimals(convert(representative_weight), 2), limitDecimals(percentage_delegated, 2), delegators_count, REPRESENTATIVE), parse_mode = 'Markdown')
         except:

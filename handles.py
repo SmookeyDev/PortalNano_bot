@@ -39,19 +39,11 @@ def last_new():
         b = a.entries[cont]
         listx.append(b.link)
 
-async def reps_online(url):
+async def representative_info():
     async with aiohttp.ClientSession() as session:
-        async with session.post(json={"action": "representatives_online", "weight": True}, url=url) as response:
+        async with session.get('https://mynano.ninja/api/accounts/principals') as response:
             r = await response.json()
-    for address in r["representatives"]:
-        r["representatives"][address]["weight"] = int(r["representatives"][address]["weight"])
     return r
-
-async def delegator_count(account, url):
-    async with aiohttp.ClientSession() as session:
-        async with session.post(json={"action": "delegators_count", "account": account}, url=url) as response:
-            r = await response.json()
-    return r["count"]
 
 async def network_stats():
     async with aiohttp.ClientSession() as session:
