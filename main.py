@@ -378,18 +378,19 @@ def checkblock(userid):
 async def exlast():
     conn = sqlite3.connect('portalnano.db')
     conne = conn.cursor()
-    if first_new() != db_new():
+    first = first_new()
+    db = db_new()
+    if first != db:
         conne.execute("SELECT * FROM REGISTERED")
         for i in conne.fetchall():
             try:
-                await bot.sendMessage(i[1], first_new())
+                await bot.sendMessage(i[1], first)
             except:
-                conne.execute("DELETE FROM REGISTERED WHERE USERID = {}".format(i[1]))
-                conn.commit()
+                conne.execute("DELETE FROM REGISTERED WHERE USERID = ?", [i[1]])
 
-        try:conne.execute("UPDATE LASTNEW SET LINK = ? WHERE ID = 1", [first_new()])
-        except:conne.execute("INSERT INTO LASTNEW (ID, LINK) \
-                        VALUES (1, {})".format(first_new()))
+        if db: conne.execute("UPDATE LASTNEW SET LINK = ? WHERE ID = 1", [first])
+        else: conne.execute("INSERT INTO LASTNEW(ID, LINK) VALUES (1, ?)", [first])
+
         conn.commit()
 
 def format_quote(a, amount):
@@ -438,7 +439,7 @@ class loopy(amanobot.loop.RunForeverAsThread):
         while( True ):
             try:await exlast()
             except:pass
-            await asyncio.sleep(10)
+            await asyncio.sleep(60)
 
 #TURN BOT ON AND WORKING
 bot = amanobot.aio.Bot(TOKEN)

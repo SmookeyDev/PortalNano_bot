@@ -28,8 +28,9 @@ def db_new():
     conn = sqlite3.connect('portalnano.db')
     conne = conn.cursor()
     conne.execute("SELECT * FROM LASTNEW")
-    for i in conne.fetchall():
-        return (i[1])
+    l = conne.fetchone()
+    if l: return (l[1])
+    return l
 
 def last_new():
     a = feedparser.parse("https://portalnano.com.br/blog/feed")
