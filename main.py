@@ -152,13 +152,13 @@ async def handle(msg):
             if cmd['param'] and cmd['param'] == "max":
                 dataBacklog = dataAtual + timedelta(seconds=stats["secondsRemainingMax"])
                 dataText = f"{dataBacklog.day}/{dataBacklog.month}/{dataBacklog.year} às {dataBacklog.hour}:{dataBacklog.minute if dataBacklog.minute >= 10 else f'0{dataBacklog.minute}'}"
-                await bot.sendMessage(chat_id, f"📊 Estatísticas da rede\n\n*cps:* {stats['cpsMax']}\n*bps:* {stats['bpsMax']}\n*quantidade de blocos:* {stats['blockCountMax']}\n*quantidade de blocos confirmados:* {stats['cementedCountMax']}\n*backlog:* {stats['backlogMax']} blocos\n\nNo atual estado o backlog terminará na data {dataText}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{REPRESENTATIVE}```", parse_mode = 'Markdown')
+                await bot.sendMessage(chat_id, texts["NETWORK_STATS"][lang].format(stats['cpsMax'], stats['bpsMax'], stats['blockCountMax'], stats['cementedCountMax'], stats['backlogMax'], dataText, REPRESENTATIVE), parse_mode = 'Markdown')
             else:
                 dataBacklog = dataAtual + timedelta(seconds=stats["secondsRemaining"])
                 dataText = f"{dataBacklog.day}/{dataBacklog.month}/{dataBacklog.year} às {dataBacklog.hour}:{dataBacklog.minute if dataBacklog.minute >= 10 else f'0{dataBacklog.minute}'}"
-                await bot.sendMessage(chat_id, f"📊 Estatísticas da rede\n\n*cps:* {stats['cps']}\n*bps:* {stats['bps']}\n*quantidade de blocos:* {stats['blockCount']}\n*quantidade de blocos confirmados:* {stats['cementedCount']}\n*backlog:* {stats['backlog']} blocos\n\nNo atual estado o backlog terminará na data {dataText}\n\nAjude a descentralizar a Nano! Delegue suas Nanos para o nosso node:\n```{REPRESENTATIVE}```", parse_mode = 'Markdown')
+                await bot.sendMessage(chat_id, texts["NETWORK_STATS"][lang].format(stats['cps'], stats['bps'], stats['blockCount'], stats['cementedCount'], stats['backlog'], dataText, REPRESENTATIVE), parse_mode = 'Markdown')
         except:
-            await bot.sendMessage(chat_id, 'Ocorreu algum problema, entre em contato com um dos desenvolvedores: @SmookeyDev ou @SACNanoPay')
+            await bot.sendMessage(chat_id, texts["ERROR_CONTACT"][lang])
 
     if cmd['type'] == '/sugerir':
         try:
