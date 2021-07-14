@@ -42,7 +42,7 @@ def last_new():
 
 async def representative_info():
     async with aiohttp.ClientSession() as session:
-        async with session.get('https://mynano.ninja/api/accounts/principals') as response:
+        async with session.get('https://mynano.ninja/api/accounts/principals/online') as response:
             r = await response.json()
     return r
 
