@@ -1,0 +1,16 @@
+{
+	"name": "portalnano_bot",
+	"version": "1.0.0",
+	"main": "src/app.js",
+	"dependencies": {
+		"telegraf": "^4.4.1",
+		"mongodb": "^4.1.0",
+		"axios": "^0.21.1",
+		"big.js": "^6.1.1",
+		"moment": "^2.29.1"
+	},
+	"scripts": {
+		"start": "nodejs src/app.js"
+	},
+	"author": "Ícaro Sant'Ana"
+}
