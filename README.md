@@ -37,7 +37,7 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | /registrar = Ativa o recebimento de noticias.  | 💤 |
 | /cancelar = Cancela o recebimento de noticias.  | 💤  |
 | /ultimas = Lista as ultimas 5 noticias lançadas no portal.  | 💤  |
-| /cot [quantidade] = Possibilita nos sugerir uma nova funcionalidade ou noticia.  | ✅  |
+| /cot [quantidade] = Mostra a atual cotação da NANO.  | ✅  |
 | /sugerir [mensagem] = Possibilita nos sugerir uma nova funcionalidade ou noticia.  | 💤  |
 | /elogiar [mensagem] = Possibilita nos mandar um elogio sobre o robô ou o portal.  | 💤  |
 | /node [endereço] = Mostra algumas estátisticas do node informado ou caso não seja informado, mostrará por padrão o da NanoBrasil.  | ✅  |
