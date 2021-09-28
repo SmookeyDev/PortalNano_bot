@@ -17,5 +17,6 @@ bot.command('help', ctx => {
 /ganhar - Recebe uma pequena quantia em nano.
 /node - Mostra algumas estátisticas do node NanoBrasil.
 /rede - Mostra algumas informações da rede da Nano.
+/me - Envia algumas informações sobre o grupo e/ou usuário.
     `)
 })

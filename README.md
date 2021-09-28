@@ -42,6 +42,7 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | /elogiar [mensagem] = Possibilita nos mandar um elogio sobre o robô ou o portal.  | 💤  |
 | /node [endereço] = Mostra algumas estátisticas do node informado ou caso não seja informado, mostrará por padrão o da NanoBrasil.  | ✅  |
 | /rede = Mostra algumas informações da rede da Nano.  | 💤  |
+| /me - Envia algumas informações sobre o grupo e/ou usuário.  | ✅  |
 
 ---
 
