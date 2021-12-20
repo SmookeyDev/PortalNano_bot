@@ -1,6 +1,6 @@
 const bot = require('../helpers/bot')
 
-bot.command('creditos', ctx => {
+bot.command(['credits', 'creditos'], (ctx) => {
     ctx.replyWithMarkdown(`
 🖥 *Creditos*
 
@@ -8,4 +8,4 @@ bot.command('creditos', ctx => {
 *Contribuidores:* @AT35000, @igorcmelo e @JgBr123.
     
 *Endereço para me apoiar:*` + '```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```')
-})
+});

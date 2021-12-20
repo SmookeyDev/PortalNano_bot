@@ -32,16 +32,14 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | ------------- | ------------- |
 | /start = Inicia o robô.  | ✅  |
 | /info = Mostra informações do portal.  | ✅  |
-| /donate = Mostra uma carteira NANO destinada a receber doações ao portal.  | 💤 |
 | /creditos = Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los.  | ✅  |
-| /registrar = Ativa o recebimento de noticias.  | 💤 |
-| /cancelar = Cancela o recebimento de noticias.  | 💤  |
-| /ultimas = Lista as ultimas 5 noticias lançadas no portal.  | 💤  |
+| /registrar = Ativa o recebimento de noticias.  | ✅ |
+| /cancelar = Cancela o recebimento de noticias.  | ✅  |
+| /ultimas = Lista as ultimas 5 noticias lançadas no portal.  | ✅  |
 | /cot [quantidade] = Mostra a atual cotação da NANO.  | ✅  |
-| /sugerir [mensagem] = Possibilita nos sugerir uma nova funcionalidade ou noticia.  | 💤  |
-| /elogiar [mensagem] = Possibilita nos mandar um elogio sobre o robô ou o portal.  | 💤  |
+| /sugerir [mensagem] = Possibilita nos sugerir uma nova funcionalidade ou noticia.  | ✅  |
 | /node [endereço] = Mostra algumas estátisticas do node informado ou caso não seja informado, mostrará por padrão o da NanoBrasil.  | ✅  |
-| /rede = Mostra algumas informações da rede da Nano.  | 💤  |
+| /rede = Mostra algumas informações da rede da Nano.  | ✅  |
 | /me - Envia algumas informações sobre o grupo e/ou usuário.  | ✅  |
 
 ---
@@ -72,6 +70,8 @@ $ cp .env.example .env
 ```
 5.Troque os valores existentes no arquivo de configuração, os valores são:
   * **BOT_TOKEN**: Token do robô que será usado. (Obrigatorio)
+  * **ADMIN_CHAT**: ID do grupo direcionado para envio das sugestões. (Obrigatorio)
+  * **ROOTS**: ID das pessoas que terão acesso aos comandos de administrador. (Obrigatorio)
   * **DB_HOST**: Endereço IPV4 a ser utilizado para conexão do banco de dados. (Opcional)
   * **DB_PORT**: Porta que será usada para o banco de dados. (Opcional)
   * **DB_NAME**: Nome do banco de dados. (Opcional)
