@@ -6,7 +6,8 @@ bot.command(['promote', 'promover'], async (ctx) => {
     const db = await ConnectDB();
     const user_id = ctx.from.id;
 
-    const props = ctx.message.text.split(' ');
+    const props = ctx.message.text.split(" ");
+    const message = ctx.message.text.replace(props[0], "")
 
     if (!await checkRoot(user_id)) {
         ctx.replyWithMarkdown("_Você não tem permissão para executar esse comando._", { reply_to_message_id: ctx.message.message_id });
@@ -18,7 +19,7 @@ bot.command(['promote', 'promover'], async (ctx) => {
 
     const getAll = [...getUsers, ...getGroups];
     for (item of getAll) {
-        ctx.telegram.sendMessage(item.id, props[1]).catch(() => {
+        ctx.telegram.sendMessage(item.id, message).catch(() => {
             if (item.type == 'private') db.collection('users').updateOne({ user_id: item.id }, { $set: { "subscription.subscribed": false } })
             else db.collection('groups').updateOne({ chat_id: item.id }, { $set: { "subscription.subscribed": false } })
         })
