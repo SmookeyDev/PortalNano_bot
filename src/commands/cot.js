@@ -19,7 +19,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const getData = async (value) => {
-    const response = await axios.get('https://api.coinpaprika.com/v1/tickers/nano-nano?quotes=USD,BRL,BTC,EUR')
+    const response = await axios.get('https://api.coinpaprika.com/v1/tickers/xno-nano?quotes=USD,BRL,BTC,EUR')
     let quotes = response.data.quotes
     let title = value > 0 ? `📊 Cotação Ӿ${value}` : `📊 Cotação Nano`
 
