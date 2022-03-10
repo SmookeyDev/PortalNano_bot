@@ -1,18 +1,18 @@
-const bot = require('../helpers/bot')
-const Big = require('big.js')
-const axios = require('axios')
+import bot from '../helpers/bot';
+import Big from 'big.js';
+import axios from 'axios';
 
-const toMnano = (value) => {
+const toMnano = (value: number) => {
     const multNANO = Big('1000000000000000000000000000000');
     return Big(value).div(multNANO).toFixed(2).toString()
 };
 
-bot.command('node', (ctx) => {
+export default bot.command('node', (ctx) => {
     let props = ctx.message.text.split(" ")
     let value = props[1] ? props[1] : 'nano_1j78msn5omp8jrjge8txwxm4x3smusa1cojg7nuk8fdzoux41fqeeogg5aa1'
 
     axios.get(`https://mynano.ninja/api/accounts/${value}`).then(function (response) {
-        data = response.data
+        const data = response.data
         ctx.replyWithMarkdown(`
 📊 Estatísticas do Node *${data.alias}*
 

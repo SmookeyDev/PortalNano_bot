@@ -1,6 +1,6 @@
-const bot = require('../helpers/bot')
+import bot from '../helpers/bot';
 
-bot.command(['credits', 'creditos'], (ctx) => {
+export default bot.command(['credits', 'creditos'], (ctx) => {
     ctx.replyWithMarkdown(`
 🖥 *Creditos*
 

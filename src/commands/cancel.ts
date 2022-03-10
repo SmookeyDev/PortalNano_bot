@@ -1,8 +1,10 @@
-const { ConnectDB } = require("../database/index")
-const getAdmins = require("../functions/getAdmins")
-const bot = require("../helpers/bot")
+import { ConnectDB } from "../database/index";
+import getAdmins from "../functions/getAdmins";
+import bot from '../helpers/bot'
+import { Markup } from 'telegraf';
 
-bot.command(['cancel', 'cancelar'], async (ctx) => {
+
+export default bot.command(['cancel', 'cancelar'], async (ctx) => {
     const db = await ConnectDB();
     const chat_type = ctx.chat.type;
     const message_id = ctx.message.message_id;
@@ -24,7 +26,6 @@ bot.command(['cancel', 'cancelar'], async (ctx) => {
         const checkAdmin = await getAdmins(ctx.chat.id);
         if (checkAdmin.includes(ctx.from.id)) {
             const checkGroup = await db.collection("groups").findOne({ "chat_id": ctx.chat.id })
-            console.log(checkGroup)
             if (!checkGroup) {
                 ctx.replyWithMarkdown("_Você não está registrado._", { reply_to_message_id: message_id });
             }
@@ -42,7 +43,7 @@ bot.command(['cancel', 'cancelar'], async (ctx) => {
     }
     else {
         ctx.replyWithMarkdown('_Este comando só pode ser usado em chats privados ou grupos._', Markup.inlineKeyboard([
-            Markup.button.url('Iniciar bot', `https://t.me/${bot.botInfo.username}?start=/cancel`)
+            Markup.button.url('Iniciar bot', `https://t.me/${bot.botInfo?.username}?start=/cancel`)
         ]))
     }
 

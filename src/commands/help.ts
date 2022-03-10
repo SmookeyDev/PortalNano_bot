@@ -1,6 +1,6 @@
-const bot = require('../helpers/bot')
+import bot from '../helpers/bot';
 
-bot.command(['help', 'ajuda'], (ctx) => {
+export default bot.command(['help', 'ajuda'], (ctx) => {
     ctx.telegram.sendMessage(ctx.message.chat.id, `
 📲 Lista de Comandos
 

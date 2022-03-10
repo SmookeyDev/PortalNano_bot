@@ -1,5 +1,5 @@
-const bot = require('../helpers/bot')
-const axios = require('axios')
+import bot from '../helpers/bot';
+import axios from 'axios';
 
 const getNetworkData = async () => {
     const response = await axios.get('https://nanoticker.info/json/stats.json')
@@ -17,7 +17,7 @@ const getNetworkData = async () => {
     }
 }
 
-bot.command(['network', 'rede'], async (ctx) => {
+export default bot.command(['network', 'rede'], async (ctx) => {
     let props = ctx.message.text.split(" ")
     const data = await getNetworkData();
 
