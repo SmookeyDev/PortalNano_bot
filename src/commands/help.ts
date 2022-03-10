@@ -9,7 +9,6 @@ export default bot.command(['help', 'ajuda'], (ctx) => {
 /creditos - Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los.
 /registrar - Ativa o recebimento de noticias.
 /cancelar - Cancela o recebimento de noticias.
-/ultimas - Lista as ultimas 5 noticias lançadas no portal.
 /cot - Mostra a atual cotação da NANO.
 /sugerir - Possibilita nos sugerir uma nova funcionalidade ou noticia.
 /node - Mostra algumas estátisticas do node NanoBrasil.
