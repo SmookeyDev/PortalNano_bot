@@ -35,7 +35,6 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | /creditos = Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los.  | ✅  |
 | /registrar = Ativa o recebimento de noticias.  | ✅ |
 | /cancelar = Cancela o recebimento de noticias.  | ✅  |
-| /ultimas = Lista as ultimas 5 noticias lançadas no portal.  | ✅  |
 | /cot [quantidade] = Mostra a atual cotação da NANO.  | ✅  |
 | /sugerir [mensagem] = Possibilita nos sugerir uma nova funcionalidade ou noticia.  | ✅  |
 | /node [endereço] = Mostra algumas estátisticas do node informado ou caso não seja informado, mostrará por padrão o da NanoBrasil.  | ✅  |
@@ -49,6 +48,8 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 - Docker
 - Docker compose
 - Node.js
+- Nodemon
+- TypeScript
 
 ## 💭 Instalação <a name="installation"></a>
 
@@ -82,9 +83,9 @@ $ cp .env.example .env
 ```terminal
 $ make up
 ```
-7.Inicie o robô rodando o seguinte comando:
+7.Inicie o robô rodando os seguintes comando:
 ```terminal
-$ npm start
+$ npm run dev
 ```
 
 ## 🔰 Créditos <a name="credits"></a>

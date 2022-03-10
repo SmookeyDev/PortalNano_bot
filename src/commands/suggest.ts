@@ -1,13 +1,12 @@
-const bot = require("../helpers/bot")
-require('../../.env')
+import bot from '../helpers/bot'
 
-bot.command(['suggest', 'sugerir'], (ctx) => {
+export default bot.command(['suggest', 'sugerir'], (ctx) => {
     const props = ctx.message.text.split(" ")
     if (!props[1]) {
         ctx.replyWithMarkdown("_Por favor, digite a sua sugestão._", { reply_to_message_id: ctx.message.message_id })
     }
     else {
-        ctx.telegram.sendMessage(ADMIN_CHAT, `
+        ctx.telegram.sendMessage(process.env.ADMIN_CHAT || "", `
 📝 *Sugestão*
 
 *Sugestão:* ${props[1]}

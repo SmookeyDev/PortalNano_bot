@@ -1,8 +1,8 @@
-const checkRoot = require('../functions/checkRoot');
-const bot = require('../helpers/bot')
-const { ConnectDB } = require("../database/index")
+import checkRoot from '../functions/checkRoot';
+import bot from '../helpers/bot'
+import { ConnectDB } from "../database/index";
 
-bot.command('stats', async (ctx) => {
+export default bot.command('stats', async (ctx) => {
     const db = await ConnectDB()
     const user_id = ctx.from.id
 
