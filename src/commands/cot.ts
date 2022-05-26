@@ -31,7 +31,6 @@ const getData = async (value: number) => {
             
     BRL: R$${(quotes.BRL.price * value).toFixed(2)} ${formatPercent(quotes.BRL.percent_change_24h)}
     USD: $${(quotes.USD.price * value).toFixed(2)} ${formatPercent(quotes.USD.percent_change_24h)}
-    EUR: €${(quotes.EUR.price * value).toFixed(2)} ${formatPercent(quotes.EUR.percent_change_24h)}
     BTC: ${(quotes.BTC.price * value).toFixed(8)} ₿ ${formatPercent(quotes.BTC.percent_change_24h)}
             
     Vol, 24h: ${formatter.format(quotes.USD.volume_24h)} ${formatPercent(quotes.USD.volume_24h_change_24h)}
