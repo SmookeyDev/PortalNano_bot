@@ -27,16 +27,16 @@ const getData = async (value: number) => {
         return `
     ${title}
             
-    Rank: ${response.data.rank}
+Rank: ${response.data.rank}
             
-    BRL: R$${(quotes.BRL.price * value).toFixed(2)} ${formatPercent(quotes.BRL.percent_change_24h)}
-    USD: $${(quotes.USD.price * value).toFixed(2)} ${formatPercent(quotes.USD.percent_change_24h)}
-    BTC: ${(quotes.BTC.price * value).toFixed(8)} ₿ ${formatPercent(quotes.BTC.percent_change_24h)}
+BRL: R$${(quotes.BRL.price * value).toFixed(2)} ${formatPercent(quotes.BRL.percent_change_24h)}
+USD: $${(quotes.USD.price * value).toFixed(2)} ${formatPercent(quotes.USD.percent_change_24h)}
+BTC: ${(quotes.BTC.price * value).toFixed(8)} ₿ ${formatPercent(quotes.BTC.percent_change_24h)}
             
-    Vol, 24h: ${formatter.format(quotes.USD.volume_24h)} ${formatPercent(quotes.USD.volume_24h_change_24h)}
-    Market Cap: ${formatter.format(quotes.USD.market_cap)} ${formatPercent(quotes.USD.market_cap_change_24h)}
+Vol, 24h: ${formatter.format(quotes.USD.volume_24h)} ${formatPercent(quotes.USD.volume_24h_change_24h)}
+Market Cap: ${formatter.format(quotes.USD.market_cap)} ${formatPercent(quotes.USD.market_cap_change_24h)}
           
-    🕒 ${moment().format('DD/MM/YYYY HH:mm:ss')}
+🕒 ${moment().format('DD/MM/YYYY HH:mm:ss')}
             `
     }
     catch{
