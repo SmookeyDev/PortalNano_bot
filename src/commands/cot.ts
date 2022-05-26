@@ -25,7 +25,7 @@ const getData = async (value: number) => {
         let title = value > 0 ? `📊 Cotação Ӿ${value}` : `📊 Cotação Nano`
         
         return `
-    ${title}
+${title}
             
 Rank: ${response.data.rank}
             
