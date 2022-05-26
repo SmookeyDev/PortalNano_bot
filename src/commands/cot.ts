@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Markup } from 'telegraf';
 
 const validNumber = (value: number) => {
-    return !isNaN(value) && value > 0
+    return !isNaN(value) && value > 0 && value != undefined
 };
 
 const formatPercent = (value: number) => {
@@ -19,25 +19,30 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const getData = async (value: number) => {
-    const response = await axios.get('https://api.coinpaprika.com/v1/tickers/xno-nano?quotes=USD,BRL,BTC,EUR')
-    let quotes = response.data.quotes
-    let title = value > 0 ? `📊 Cotação Ӿ${value}` : `📊 Cotação Nano`
-
-    return `
-${title}
+    try {
+        const response = await axios.get('https://api.coinpaprika.com/v1/tickers/xno-nano?quotes=USD,BRL,BTC')
+        let quotes = response.data.quotes
+        let title = value > 0 ? `📊 Cotação Ӿ${value}` : `📊 Cotação Nano`
         
-Rank: ${response.data.rank}
-        
-BRL: R$${(quotes.BRL.price * value).toFixed(2)} ${formatPercent(quotes.BRL.percent_change_24h)}
-USD: $${(quotes.USD.price * value).toFixed(2)} ${formatPercent(quotes.USD.percent_change_24h)}
-EUR: €${(quotes.EUR.price * value).toFixed(2)} ${formatPercent(quotes.EUR.percent_change_24h)}
-BTC: ${(quotes.BTC.price * value).toFixed(8)} ₿ ${formatPercent(quotes.BTC.percent_change_24h)}
-        
-Vol, 24h: ${formatter.format(quotes.USD.volume_24h)} ${formatPercent(quotes.USD.volume_24h_change_24h)}
-Market Cap: ${formatter.format(quotes.USD.market_cap)} ${formatPercent(quotes.USD.market_cap_change_24h)}
-      
-🕒 ${moment().format('DD/MM/YYYY HH:mm:ss')}
-        `
+        return `
+    ${title}
+            
+    Rank: ${response.data.rank}
+            
+    BRL: R$${(quotes.BRL.price * value).toFixed(2)} ${formatPercent(quotes.BRL.percent_change_24h)}
+    USD: $${(quotes.USD.price * value).toFixed(2)} ${formatPercent(quotes.USD.percent_change_24h)}
+    EUR: €${(quotes.EUR.price * value).toFixed(2)} ${formatPercent(quotes.EUR.percent_change_24h)}
+    BTC: ${(quotes.BTC.price * value).toFixed(8)} ₿ ${formatPercent(quotes.BTC.percent_change_24h)}
+            
+    Vol, 24h: ${formatter.format(quotes.USD.volume_24h)} ${formatPercent(quotes.USD.volume_24h_change_24h)}
+    Market Cap: ${formatter.format(quotes.USD.market_cap)} ${formatPercent(quotes.USD.market_cap_change_24h)}
+          
+    🕒 ${moment().format('DD/MM/YYYY HH:mm:ss')}
+            `
+    }
+    catch{
+        return 'Erro ao obter dados.'
+    }
 };
 
 export default bot.command('cot', async (ctx) => {
