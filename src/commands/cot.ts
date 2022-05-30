@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Markup } from 'telegraf';
 
 const validNumber = (value: number) => {
-    return !isNaN(value) && value > 0 && value != undefined
+    return !isNaN(value) && value > 0 && value != undefined && value <= 133248297
 };
 
 const formatPercent = (value: number) => {
