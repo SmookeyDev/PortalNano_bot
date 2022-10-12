@@ -4,7 +4,7 @@ let client: MongoClient;
 
 const ConnectDB = async () => {
     if (!client) {
-        client = await MongoClient.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false` || "");
+        client = await MongoClient.connect(process.env.DB_URL || "");
     }
     return client.db(process.env.DB_NAME || "");
 }
