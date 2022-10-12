@@ -45,8 +45,6 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 
 ## 📝 Requisitos para rodar ambiente de desenvolvimento <a name="developmentrequirements"></a>
 
-- Docker
-- Docker compose
 - Node.js
 - Nodemon
 - TypeScript
@@ -73,17 +71,10 @@ $ cp .env.example .env
   * **BOT_TOKEN**: Token do robô que será usado. (Obrigatorio)
   * **ADMIN_CHAT**: ID do grupo direcionado para envio das sugestões. (Obrigatorio)
   * **ROOTS**: ID das pessoas que terão acesso aos comandos de administrador. (Obrigatorio)
-  * **DB_HOST**: Endereço IPV4 a ser utilizado para conexão do banco de dados. (Opcional)
-  * **DB_PORT**: Porta que será usada para o banco de dados. (Opcional)
-  * **DB_NAME**: Nome do banco de dados. (Opcional)
-  * **DB_USER**: Usuário do banco de dados. (Opcional)
-  * **DB_PASS**: Senha do usuário do banco de dados. (Opcional)
-
-6.Inicie o banco de dados rodando o seguinte comando:
-```terminal
-$ make up
+  * **DB_URL**: Endereço de conexão para o banco de dados. (Obrigatorio)
+  * **DB_NAME**: Nome do banco de dados. (Obrigatorio)
 ```
-7.Inicie o robô rodando os seguintes comando:
+6.Inicie o robô rodando os seguintes comando:
 ```terminal
 $ npm run dev
 ```
