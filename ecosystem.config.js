@@ -1,7 +1,7 @@
 module.exports = {
 	apps: [
 		{
-			name: "worker",
+			name: "PortalNano_bot",
 			script: "npx",
 			args: "yarn start",
 			autorestart: true,
