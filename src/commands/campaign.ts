@@ -35,11 +35,12 @@ export default bot.command(['campaign', 'campanha'], async (ctx) => {
     }).join('\n')
 
     const campaignGoal = await getGoal('nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic')
+    const missingToGoal = (Number(campaignGoal) - Number(lastBalance)).toFixed(6)
 
     ctx.replyWithMarkdown(`💸 *Campanha para custear o servidor do bot* 💸
 
 *Saldo dos ultimos 30 dias:* Ӿ${lastBalance}
-*Meta:* Ӿ${campaignGoal} (Faltam: Ӿ${Number(campaignGoal) - Number(lastBalance)})
+*Meta:* Ӿ${campaignGoal} (Faltam: Ӿ${missingToGoal})
 
 *Doações recentes:*
 ${lastTransactionsMessage}
