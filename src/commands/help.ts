@@ -14,5 +14,6 @@ export default bot.command(['help', 'ajuda'], (ctx) => {
 /node - Mostra algumas estátisticas do node NanoBrasil.
 /rede - Mostra algumas informações da rede da Nano.
 /me - Envia algumas informações sobre o grupo e/ou usuário.
+/campanha - Mostra informações sobre a campanha de doação para custear o servidor em que o bot está hospedado.
     `)
 });

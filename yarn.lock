@@ -249,7 +249,7 @@ minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-moment@^2.29.1:
+moment@^2.29.4:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
@@ -288,6 +288,11 @@ ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+nano-node-rpc@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/nano-node-rpc/-/nano-node-rpc-0.3.1.tgz#b443f527bc3a6e6808699f691e759f3b00751b30"
+  integrity sha512-YKe3BSCl0JIdxuFiabbV1DmGbKMMzHywHeqmuxRbeHU7jW7qYN82VhIWYxiXQRnCCPe1SIKYG7/G7KDYsb1AAw==
 
 node-fetch@^2.6.7:
   version "2.6.7"

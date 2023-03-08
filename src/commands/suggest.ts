@@ -12,7 +12,7 @@ export default bot.command(['suggest', 'sugerir'], (ctx) => {
 *Sugestão:* ${props[1]}
 *Usuário:* ${ctx.message.from.username}
 *ID:* ${ctx.message.from.id}
-        `, { parse_mode: 'MarkdownV2' })
+`, { parse_mode: 'MarkdownV2' })
 
         ctx.replyWithMarkdown('_Sua sugestão foi enviada com sucesso!_', { reply_to_message_id: ctx.message.message_id })
     }

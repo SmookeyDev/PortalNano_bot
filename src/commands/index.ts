@@ -11,3 +11,4 @@ import './register';
 import './start';
 import './stats';
 import './suggest';
+import './campaign';

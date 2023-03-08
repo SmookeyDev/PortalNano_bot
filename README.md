@@ -31,6 +31,7 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | Comando  | Status |
 | ------------- | ------------- |
 | /start = Inicia o robô.  | ✅  |
+| /ajuda = Mostra todos os comandos disponíveis.  | ✅  |
 | /info = Mostra informações do portal.  | ✅  |
 | /creditos = Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los.  | ✅  |
 | /registrar = Ativa o recebimento de noticias.  | ✅ |
@@ -40,6 +41,7 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | /node [endereço] = Mostra algumas estátisticas do node informado ou caso não seja informado, mostrará por padrão o da NanoBrasil.  | ✅  |
 | /rede = Mostra algumas informações da rede da Nano.  | ✅  |
 | /me - Envia algumas informações sobre o grupo e/ou usuário.  | ✅  |
+| /campanha = Mostra informações sobre a campanha de doação para custear o servidor em que o bot está hospedado.  | ✅  |
 
 ---
 

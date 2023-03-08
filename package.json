@@ -6,8 +6,9 @@
 		"axios": "^0.21.1",
 		"big.js": "^6.1.1",
 		"dotenv": "^16.0.0",
-		"moment": "^2.29.1",
+		"moment": "^2.29.4",
 		"mongodb": "^4.4.1",
+		"nano-node-rpc": "^0.3.1",
 		"telegraf": "^4.7.0",
 		"xml-js": "^1.6.11"
 	},
