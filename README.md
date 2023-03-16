@@ -31,6 +31,7 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | Comando  | Status |
 | ------------- | ------------- |
 | /start = Inicia o robô.  | ✅  |
+| /ajuda = Mostra todos os comandos disponíveis.  | ✅  |
 | /info = Mostra informações do portal.  | ✅  |
 | /creditos = Mostra os desenvolvedores do bot e um endereço de doação para apoiar-los.  | ✅  |
 | /registrar = Ativa o recebimento de noticias.  | ✅ |
@@ -40,13 +41,12 @@ O PortalNano_bot surgiu da ideia de levar as noticias do [PortalNano](https://po
 | /node [endereço] = Mostra algumas estátisticas do node informado ou caso não seja informado, mostrará por padrão o da NanoBrasil.  | ✅  |
 | /rede = Mostra algumas informações da rede da Nano.  | ✅  |
 | /me - Envia algumas informações sobre o grupo e/ou usuário.  | ✅  |
+| /campanha = Mostra informações sobre a campanha de doação para custear o servidor em que o bot está hospedado.  | ✅  |
 
 ---
 
 ## 📝 Requisitos para rodar ambiente de desenvolvimento <a name="developmentrequirements"></a>
 
-- Docker
-- Docker compose
 - Node.js
 - Nodemon
 - TypeScript
@@ -73,17 +73,10 @@ $ cp .env.example .env
   * **BOT_TOKEN**: Token do robô que será usado. (Obrigatorio)
   * **ADMIN_CHAT**: ID do grupo direcionado para envio das sugestões. (Obrigatorio)
   * **ROOTS**: ID das pessoas que terão acesso aos comandos de administrador. (Obrigatorio)
-  * **DB_HOST**: Endereço IPV4 a ser utilizado para conexão do banco de dados. (Opcional)
-  * **DB_PORT**: Porta que será usada para o banco de dados. (Opcional)
-  * **DB_NAME**: Nome do banco de dados. (Opcional)
-  * **DB_USER**: Usuário do banco de dados. (Opcional)
-  * **DB_PASS**: Senha do usuário do banco de dados. (Opcional)
-
-6.Inicie o banco de dados rodando o seguinte comando:
-```terminal
-$ make up
+  * **DB_URL**: Endereço de conexão para o banco de dados. (Obrigatorio)
+  * **DB_NAME**: Nome do banco de dados. (Obrigatorio)
 ```
-7.Inicie o robô rodando os seguintes comando:
+6.Inicie o robô rodando os seguintes comando:
 ```terminal
 $ npm run dev
 ```
