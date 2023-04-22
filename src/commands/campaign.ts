@@ -4,20 +4,12 @@ import client from '../helpers/nano';
 import toMnano from '../lib/toMnano';
 import moment from 'moment';
 
-const getDolarPrice = async () => {
-    const lastDay = moment().subtract(1, 'days').format('MM-DD-YYYY');
-    const response = await axios.get(`https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%27${lastDay}%27&$top=100&$format=json`);
-    const price = response.data.value[0];
-    return price.cotacaoVenda;
-}
-
 const getGoal = async (account: string) => {
     const response = await axios.get('https://api.coinpaprika.com/v1/tickers/xno-nano?quotes=USD,BRL,BTC')
     const quotes = response.data.quotes
     const coinPrice = quotes.USD.price;
-    const dollarPrice = await getDolarPrice();
 
-    return ((27.90 / dollarPrice) / coinPrice).toFixed(6);
+    return (5  / coinPrice).toFixed(6);
 }
 
 export default bot.command(['campaign', 'campanha'], async (ctx) => {
@@ -25,17 +17,18 @@ export default bot.command(['campaign', 'campanha'], async (ctx) => {
 
     const filteredHistory = history.history.filter(transaction => {
         const transactionDate = moment.unix(transaction.local_timestamp);
-        return transactionDate.isAfter(moment().subtract(30, 'days'));
+        return transactionDate.isAfter(moment().subtract(30, 'days')) && transaction.type === 'receive';
     });
 
     const lastBalance = toMnano(filteredHistory.reduce((acc: any, item: any) => acc + Number(item.amount), 0), 6);
 
     const lastTransactionsMessage = filteredHistory.map(transaction => {
-        return `${transaction.account} - ${toMnano(transaction.amount, 6)} - ${moment.unix(transaction.local_timestamp).format('DD/MM/YYYY HH:mm:ss')}`
+        return `[${transaction.account} - ${toMnano(transaction.amount, 6)} - ${moment.unix(transaction.local_timestamp).format('DD/MM/YYYY HH:mm:ss')}](https://nanolooker.com/block/${transaction.hash})`
     }).join('\n')
 
     const campaignGoal = await getGoal('nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic')
-    const missingToGoal = (Number(campaignGoal) - Number(lastBalance)).toFixed(6)
+    const diff = Number(campaignGoal) - Number(lastBalance);
+    const missingToGoal = diff <= 0 ? 0 : diff.toFixed(6);
 
     ctx.replyWithMarkdown(`💸 *Campanha para custear o servidor do bot* 💸
 
@@ -43,8 +36,7 @@ export default bot.command(['campaign', 'campanha'], async (ctx) => {
 *Meta:* Ӿ${campaignGoal} (Faltam: Ӿ${missingToGoal})
 
 *Doações recentes:*
-${lastTransactionsMessage}
+${lastTransactionsMessage || 'Nenhuma doação recebida nos ultimos 30 dias.'}
 
-*Doe para ajudar a manter o bot online:*` + "\n```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", { reply_to_message_id: ctx.message.message_id })
-
+*Doe para ajudar a manter o bot online:*` + "\n```nano_1qecfwuccd79n7q8sbbza7pyrtq1njxfigbouniuiooez9iaemjoresz78ic```", { reply_to_message_id: ctx.message.message_id, disable_web_page_preview: true })
 });
