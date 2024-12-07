@@ -1,7 +1,7 @@
+import config from '../config';
+
 const checkRoot = async (user_id: number) => {
-    const ROOTS = process.env.ROOTS || "";
+  if (config.ROOTS.includes(user_id.toString())) return true;
+};
 
-    if(ROOTS.includes(user_id.toString())) return true;
-}; 
-
-export default checkRoot
+export default checkRoot;

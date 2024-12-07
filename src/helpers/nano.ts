@@ -1,5 +1,5 @@
-import NanoClient from 'nano-node-rpc';
+import { NanoClient } from '@dev-ptera/nano-node-rpc';
 
 export default new NanoClient({
-    apiKey: process.env.NANO_API,
-})
+  url: 'https://rpc.nano.to',
+});
