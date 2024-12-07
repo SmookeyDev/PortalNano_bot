@@ -83,7 +83,7 @@ $ cp .env.example .env
 - **ADMIN_CHAT**: ID do grupo direcionado para envio das sugestões. (Obrigatorio)
 - **ROOTS**: ID das pessoas que terão acesso aos comandos de administrador. (Obrigatorio)
 - **DB_URL**: Endereço de conexão para o banco de dados. (Obrigatorio)
-- **DB_NAME**: Nome do banco de dados. (Obrigatorio)
+- **NANO_WALLET**: Endereço da carteira para doações. (Opcional)
 
 ````
 6.Inicie o robô rodando os seguintes comando:
