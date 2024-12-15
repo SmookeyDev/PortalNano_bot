@@ -10,25 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Use Node.js 18.x
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-
-      - name: Install PNPM
-        run: npm install -g pnpm
-
+          cache: 'yarn'
       - name: Install dependencies
-        run: pnpm install
-
+        run: yarn
       - name: Build
-        run: pnpm build
+        run: yarn build
 
       - name: Get .env
         run: echo "${{ secrets.DOT_ENV }}" > .env
 
-      - name: Send files
+      - name: send files
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -47,5 +42,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /root/PortalNano_bot
-            pnpm install
+            yarn
             pm2 start ecosystem.config.js

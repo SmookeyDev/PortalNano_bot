@@ -66,7 +66,7 @@ $ cd PortalNano_bot
 3.Rode o comando de instalação das bibliotecas utilizada no projeto.
 
 ```terminal
-$ pnpm install
+$ yarn
 ```
 
 4.Copie o arquivo de configuração de exemplo para um arquivo de configuração real:
@@ -86,7 +86,7 @@ $ cp .env.example .env
 ````
 6.Inicie o robô rodando os seguintes comando:
 ```terminal
-$ pnpm run dev
+$ yarn dev
 ````
 
 ## 🔰 Créditos `<a name="credits"></a>`
