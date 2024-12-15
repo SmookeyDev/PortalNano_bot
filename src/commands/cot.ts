@@ -2,13 +2,14 @@ import bot from '../helpers/bot';
 import axios from 'axios';
 import moment from 'moment';
 import { Markup } from 'telegraf';
+import escapeMarkdownV2 from '../lib/escapeMarkdownV2';
 
 const validNumber = (value: number) => {
   return !isNaN(value) && value > 0 && value != undefined && value <= 133248297;
 };
 
 const formatPercent = (value: number) => {
-  const emoji = value < 1 ? '🔻' : '🔺';
+  const emoji = value < 1 ? '🔴' : '🟢';
   return `(${value}%) ${emoji}`;
 };
 
@@ -56,7 +57,7 @@ export default bot.command('cot', async (ctx) => {
 
   const data = await getData(value);
   ctx.replyWithMarkdownV2(
-    data,
+    escapeMarkdownV2(data),
     Markup.inlineKeyboard([Markup.button.callback('Atualizar', `refresh ${value}`)]),
   );
 });

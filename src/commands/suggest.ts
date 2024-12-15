@@ -1,5 +1,6 @@
 import config from '../config';
 import bot from '../helpers/bot';
+import escapeMarkdownV2 from '../lib/escapeMarkdownV2';
 
 export default bot.command(['suggest', 'sugerir'], (ctx) => {
   const props = ctx.message.text.split(' ');
@@ -11,13 +12,13 @@ export default bot.command(['suggest', 'sugerir'], (ctx) => {
       `
 📝 *Sugestão*
 
-*Sugestão:* ${props[1]}
-*Usuário:* ${ctx.message.from.username}
+*Sugestão:* ${escapeMarkdownV2(props[1])}
+*Usuário:* ${escapeMarkdownV2(ctx.message.from.username)}
 *ID:* ${ctx.message.from.id}
 `,
       { parse_mode: 'MarkdownV2' },
     );
 
-    ctx.replyWithMarkdownV2('_Sua sugestão foi enviada com sucesso!_');
+    ctx.replyWithMarkdownV2('_Sua sugestão foi enviada com sucesso_');
   }
 });

@@ -45,5 +45,5 @@ export default bot.command(['promote', 'promover'], async (ctx) => {
         );
     });
   }
-  ctx.replyWithMarkdownV2('_Todos os usuários e grupos foram notificados com sucesso!_');
+  ctx.replyWithMarkdownV2('_Todos os usuários e grupos foram notificados com sucesso_');
 });

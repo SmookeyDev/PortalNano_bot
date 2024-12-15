@@ -3,7 +3,6 @@ import './cot';
 import './credits';
 import './help';
 import './me';
-import './node';
 import './promote';
 import './register';
 import './start';
