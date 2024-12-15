@@ -18,7 +18,7 @@ const formatTransaction = (transaction: any) => {
   const account = escapeMarkdownV2(transaction.account);
   const amount = escapeMarkdownV2(toMnano(Number(transaction?.amount), 6));
   const timestamp = moment.unix(Number(transaction?.local_timestamp)).format('DD/MM/YYYY HH:mm:ss');
-  return `[${account} - Ӿ${amount} - ${timestamp}](https://nanolooker.com/block/${transaction.hash})`;
+  return `[${account} \\- Ӿ${amount} \\- ${timestamp}](https://blocklattice.io/block/${transaction.hash})`;
 };
 
 export default bot.command(['campaign', 'campanha'], async (ctx) => {
@@ -37,6 +37,7 @@ export default bot.command(['campaign', 'campanha'], async (ctx) => {
         6,
       ),
     );
+
     const lastTransactionsMessage =
       filteredHistory?.map(formatTransaction).join('\n') ||
       'Nenhuma doação recebida nos últimos 30 dias';
