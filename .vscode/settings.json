@@ -1,0 +1,33 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Define o formatador padrão como Prettier para todos os arquivos suportados.
+    "editor.formatOnPaste": false, // Desabilita a formatação automática ao colar código.
+    "editor.formatOnType": false, // Desabilita a formatação automática enquanto digita.
+    "editor.formatOnSave": true, // Habilita a formatação automática ao salvar arquivos.
+    "editor.formatOnSaveMode": "file", // Garante que a formatação ao salvar se aplique a todo o arquivo.
+    "files.autoSave": "afterDelay", // Salva automaticamente os arquivos quando o foco é alterado.
+    "prettier.requireConfig": true, // O Prettier só formatará arquivos se houver um arquivo de configuração do Prettier no projeto.
+    "prettier.experimentalTernaries": true, // Ativa a formatação experimental para expressões ternárias.
+    "prettier.printWidth": 100, // Define a largura máxima da linha que o Prettier tentará respeitar.
+    "prettier.tabWidth": 2, // Define a largura da tabulação usada para indentação.
+    "prettier.useTabs": false, // Indica que espaços serão usados para indentação, ao invés de tabs.
+    "prettier.semi": true, // Configura para que ponto-e-vírgula seja utilizado ao final das declarações.
+    "prettier.singleQuote": true, // Configura para que aspas simples sejam utilizadas, ao invés de aspas duplas.
+    "prettier.quoteProps": "as-needed", // Aspas em propriedades de objetos são adicionadas somente quando necessário.
+    "prettier.trailingComma": "all", // Configura para adicionar vírgulas finais onde for possível.
+    "prettier.bracketSpacing": true, // Define que espaços devem ser incluídos entre os colchetes de objetos.
+    "prettier.bracketSameLine": true, // Configura para colocar o colchete de fechamento de elementos HTML na mesma linha.
+    "prettier.arrowParens": "always", // Exige que parênteses sejam usados em funções flecha com um único parâmetro.
+    "prettier.requirePragma": false, // Desabilita a necessidade de um comentário especial para que o arquivo seja formatado.
+    "prettier.insertPragma": false, // Desabilita a inserção automática de um comentário especial em arquivos formatados.
+    "prettier.htmlWhitespaceSensitivity": "css", // Define como os espaços em branco em HTML devem ser tratados, respeitando CSS.
+    "prettier.vueIndentScriptAndStyle": false, // Desabilita a indentação adicional para scripts e estilos em arquivos Vue.
+    "prettier.endOfLine": "lf", // Define que o estilo de fim de linha deve ser LF (Unix style).
+    "prettier.embeddedLanguageFormatting": "auto", // Permite que o Prettier formate códigos incorporados em strings, se possível.
+    "prettier.singleAttributePerLine": false, // Desabilita a regra que exigiria um único atributo por linha em HTML, Vue e JSX.
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode" // Especifica o Prettier como o formatador padrão para arquivos TypeScript.
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode" // Especifica o Prettier como o formatador padrão para arquivos JavaScript.
+    }
+}

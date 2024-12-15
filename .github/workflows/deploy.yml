@@ -3,22 +3,22 @@ name: Deploy
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js 16.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-          cache: 'yarn'
+          node-version: 18.x
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Get .env
         run: echo "${{ secrets.DOT_ENV }}" > .env
@@ -30,9 +30,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "*"
-          target: "/root/PortalNano_bot"
-      
+          source: '*'
+          target: '/root/PortalNano_bot'
+
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -42,5 +42,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /root/PortalNano_bot
-            yarn install
+            pnpm install
             pm2 start ecosystem.config.js

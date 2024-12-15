@@ -2,29 +2,32 @@ import bot from '../helpers/bot';
 import axios from 'axios';
 import moment from 'moment';
 import { Markup } from 'telegraf';
+import escapeMarkdownV2 from '../lib/escapeMarkdownV2';
 
 const validNumber = (value: number) => {
-    return !isNaN(value) && value > 0 && value != undefined && value <= 133248297
+  return !isNaN(value) && value > 0 && value != undefined && value <= 133248297;
 };
 
 const formatPercent = (value: number) => {
-    const emoji = value < 1 ? '🔻' : '🔺'
-    return (`(${value}%) ${emoji}`)
+  const emoji = value < 1 ? '🔴' : '🟢';
+  return `(${value}%) ${emoji}`;
 };
 
 const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
 });
 
 const getData = async (value: number) => {
-    try {
-        const response = await axios.get('https://api.coinpaprika.com/v1/tickers/xno-nano?quotes=USD,BRL,BTC')
-        let quotes = response.data.quotes
-        let title = value > 0 ? `📊 Cotação Ӿ${value}` : `📊 Cotação Nano`
-        
-        return `
+  try {
+    const response = await axios.get(
+      'https://api.coinpaprika.com/v1/tickers/xno-nano?quotes=USD,BRL,BTC',
+    );
+    let quotes = response.data.quotes;
+    let title = value > 0 ? `📊 Cotação Ӿ${value}` : `📊 Cotação Nano`;
+
+    return `
 ${title}
             
 Rank: ${response.data.rank}
@@ -37,33 +40,34 @@ Vol, 24h: ${formatter.format(quotes.USD.volume_24h)} ${formatPercent(quotes.USD.
 Market Cap: ${formatter.format(quotes.USD.market_cap)} ${formatPercent(quotes.USD.market_cap_change_24h)}
           
 🕒 ${moment().format('DD/MM/YYYY HH:mm:ss')}
-            `
-    }
-    catch{
-        return 'Erro ao obter dados.'
-    }
+            `;
+  } catch {
+    return 'Erro ao obter dados.';
+  }
 };
 
 export default bot.command('cot', async (ctx) => {
-    let props = ctx.message.text.split(" ")
-    let value = Number(props[1] ? props[1] : 1)
+  let props = ctx.message.text.split(' ');
+  let value = Number(props[1] ? props[1] : 1);
 
-    if (!validNumber(value)) {
-        ctx.replyWithMarkdown('_Digite um valor válido._', { reply_to_message_id: ctx.message.message_id })
-        return;
-    }
+  if (!validNumber(value)) {
+    ctx.replyWithMarkdownV2('_Digite um valor válido_');
+    return;
+  }
 
-    const data = await getData(value)
-    ctx.replyWithMarkdown(data, Markup.inlineKeyboard([
-        Markup.button.callback('Atualizar', `refresh ${value}`)
-    ]))
+  const data = await getData(value);
+  ctx.replyWithMarkdownV2(
+    escapeMarkdownV2(data),
+    Markup.inlineKeyboard([Markup.button.callback('Atualizar', `refresh ${value}`)]),
+  );
 });
 
 bot.action(/refresh [-+]?(\d*[\.|\,]\d+|\d+)/, async (ctx) => {
-    const value = Number(ctx.match[1])
+  const value = Number(ctx.match[1]);
 
-    const data = await getData(value)
-    ctx.editMessageText(data, Markup.inlineKeyboard([
-        Markup.button.callback('Atualizar', `refresh ${value}`)
-    ]))
+  const data = await getData(value);
+  ctx.editMessageText(
+    data,
+    Markup.inlineKeyboard([Markup.button.callback('Atualizar', `refresh ${value}`)]),
+  );
 });
